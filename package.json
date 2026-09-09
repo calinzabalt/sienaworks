@@ -1,5 +1,5 @@
 {
-  "name": "studio",
+  "name": "siena-studio",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "next": "16.3.3",
+    "nodemailer": "^10.0.1",
     "react": "19.2.8",
     "react-dom": "19.2.8"
   },
