@@ -9,7 +9,7 @@ import { createMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = createMetadata({
   title: "Privacy",
-  description: `How ${site.spokenName} uses personal data from the contact form and, if you accept, Google Analytics.`,
+  description: `How ${site.spokenName} uses personal data from the contact form and Google Analytics.`,
   path: "/privacy",
 });
 

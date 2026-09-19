@@ -1,7 +1,7 @@
 import { site } from "./site";
 
 export const privacy = {
-  lastUpdated: "8 September 2026",
+  lastUpdated: "19 September 2026",
   intro:
     "This notice describes the personal data we collect on this website, why we collect it, how long we keep it, and the choices you have. It covers the contact form, cookies, and Google Analytics.",
   sections: [
@@ -15,7 +15,7 @@ export const privacy = {
     {
       title: "What we collect",
       paragraphs: [
-        "We collect personal data in two ways: when you send an enquiry, and — only if you accept — through Google Analytics.",
+        "We collect personal data in two ways: when you send an enquiry, and through Google Analytics on page visits.",
         "From the contact form we collect your name, email address, message, project type and budget range. Company name and website are optional. We also receive the time of the enquiry. A hidden field is included to reduce automated spam; you do not fill it in.",
         "We do not ask for payment details, passwords, or identity documents through this site.",
         "If you email us directly instead of using the form, we will have whatever you include in that message — typically your email address, name, and the content of the correspondence.",
@@ -39,18 +39,17 @@ export const privacy = {
     {
       title: "Cookies and Google Analytics",
       paragraphs: [
-        "This site can use Google Analytics (GA4) so we can see which pages are visited, how people arrive here, and whether the site is working as intended. That helps us improve the content and the structure of the studio site.",
-        "Analytics cookies are not set until you accept them on the banner. If you reject analytics, the rest of the site works as normal. You can change your mind later by clearing stored data for this site in your browser and visiting again — the banner will return.",
-        "If you accept, Google Analytics may collect pages viewed, time on page, approximate location (country or region, not a street address), browser and device type, screen size, referral source, and anonymised IP information. We configure Analytics so IP addresses are anonymised.",
+        "This site uses Google Analytics (GA4) so we can see which pages are visited, how people arrive here, and whether the site is working as intended. That helps us improve the content and the structure of the studio site.",
+        "Google Analytics may collect pages viewed, time on page, approximate location (country or region, not a street address), browser and device type, screen size, referral source, and IP information. The contact form does not depend on Analytics cookies.",
         "Google provides the Analytics service and processes this measurement data. Google’s own terms and privacy notice apply to their service. We use Analytics for site measurement only — not to build advertising audiences or to sell data about visitors.",
-        "A small record is stored in your browser so we remember your choice (accepted or rejected). That is not an advertising cookie. The contact form does not depend on Analytics cookies.",
+        "You can block Analytics with a browser extension, or use Google’s opt-out tools. The rest of the site works without it.",
       ],
     },
     {
       title: "Who else sees the data",
       paragraphs: [
         "Enquiry messages are received by email so we can reply from our studio inbox. We do not publish form submissions, and we do not pass them to other businesses for their own marketing.",
-        "If you accept analytics, Google processes the measurement data described above.",
+        "Google processes the Analytics measurement data described above.",
         "We use service providers to host the website and to operate email. They process data only to provide those services to us, not for their own unrelated purposes.",
         "We would only share data further if the law required it, or if it was necessary to protect the studio or other people from harm.",
       ],

@@ -25,6 +25,6 @@ Open [http://localhost:3000](http://localhost:3000).
 
 Set `NEXT_PUBLIC_SITE_URL` to `https://sienaworks.com` in production.
 
-Contact form: set `BREVO_SMTP_USER` and `BREVO_SMTP_PASS` (see `.env.example`). Google Analytics: set `NEXT_PUBLIC_GA_MEASUREMENT_ID` (consent banner appears only when this is set).
+Contact form: set `BREVO_SMTP_USER` and `BREVO_SMTP_PASS` (see `.env.example`). Google Analytics is the gtag snippet in `src/app/layout.tsx` (`G-21EY3FFRM7`).
 
 Replace social `href` values in `src/data/site.ts` when profiles are ready.
