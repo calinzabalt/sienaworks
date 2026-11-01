@@ -1,12 +1,13 @@
 {
-  "name": "siena-studio",
+  "name": "sienaworks",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test": "node --import ./test/register.mjs --test src/content/routes.test.ts src/content/pricing.test.ts src/lib/enquiry.test.ts src/lib/url-safety.test.ts"
   },
   "dependencies": {
     "next": "16.3.3",

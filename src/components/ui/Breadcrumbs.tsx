@@ -1,35 +1,32 @@
 import Link from "next/link";
 import { cn } from "@/lib/cn";
 
-export type BreadcrumbItem = {
-  label: string;
-  href?: string;
-};
-
-export function Breadcrumbs({ items }: { items: BreadcrumbItem[] }) {
+export function Breadcrumbs({
+  items,
+  onDark = false,
+}: {
+  items: { label: string; href?: string }[];
+  onDark?: boolean;
+}) {
   return (
-    <nav aria-label="Breadcrumb">
-      <ol className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[0.75rem] text-muted">
+    <nav aria-label="Breadcrumb" className={cn("min-w-0", onDark ? "mb-8" : "border-b border-line bg-bg")}>
+      <ol className={cn("crumbs", onDark ? "text-mist" : "mx-auto w-full max-w-6xl px-5 py-3 text-muted sm:px-8")}>
         {items.map((item, index) => {
-          const isLast = index === items.length - 1;
+          const last = index === items.length - 1;
           return (
-            <li key={`${item.label}-${index}`} className="flex items-center gap-2">
-              {index > 0 && (
-                <span aria-hidden="true" className="text-line-strong">
-                  /
-                </span>
-              )}
-              {item.href && !isLast ? (
+            <li key={`${item.label}-${index}`}>
+              {index > 0 ? <span aria-hidden="true">/</span> : null}
+              {item.href && !last ? (
                 <Link
                   href={item.href}
-                  className="transition-colors duration-200 hover:text-ink"
+                  className={cn("shrink-0", onDark ? "text-white/80 hover:text-white" : "hover:text-ink")}
                 >
                   {item.label}
                 </Link>
               ) : (
                 <span
-                  className={cn(isLast && "text-ink")}
-                  aria-current={isLast ? "page" : undefined}
+                  aria-current={last ? "page" : undefined}
+                  className={cn("crumb-current", last ? (onDark ? "text-white" : "text-ink") : undefined)}
                 >
                   {item.label}
                 </span>

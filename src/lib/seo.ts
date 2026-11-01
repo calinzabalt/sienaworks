@@ -1,55 +1,49 @@
 import type { Metadata } from "next";
-import { site } from "@/data/site";
-
-type CreateMetadataInput = {
-  title: string;
-  description: string;
-  path: string;
-  ogImage?: string;
-  noIndex?: boolean;
-};
-
-function absoluteUrl(path: string) {
-  const base = site.url.replace(/\/$/, "");
-  const normalised = path.startsWith("/") ? path : `/${path}`;
-  return normalised === "/" ? `${base}/` : `${base}${normalised}`;
-}
+import { metaFor } from "@/content/meta";
+import { pathFor } from "@/content/routes";
+import { absoluteUrl, site } from "@/content/site";
+import type { Locale, RouteId } from "@/content/types";
 
 export function createMetadata({
-  title,
-  description,
-  path,
-  ogImage,
-  noIndex,
-}: CreateMetadataInput): Metadata {
+  locale,
+  routeId,
+  noIndex = false,
+}: {
+  locale: Locale;
+  routeId: RouteId;
+  noIndex?: boolean;
+}): Metadata {
+  const meta = metaFor(routeId, locale);
+  const path = pathFor(routeId, locale);
   const url = absoluteUrl(path);
-  const image = ogImage ? [{ url: ogImage }] : undefined;
+  const languages = {
+    en: absoluteUrl(pathFor(routeId, "en")),
+    ro: absoluteUrl(pathFor(routeId, "ro")),
+    "x-default": absoluteUrl(pathFor(routeId, "en")),
+  };
 
   return {
-    title,
-    description,
+    title: meta.absolute ? { absolute: meta.title } : meta.title,
+    description: meta.description,
     alternates: {
       canonical: url,
+      languages,
     },
     openGraph: {
-      title,
-      description,
+      title: meta.title,
+      description: meta.description,
       url,
       siteName: site.name,
-      locale: site.locale,
+      locale: locale === "ro" ? "ro_RO" : "en_GB",
       type: "website",
-      images: image,
     },
     twitter: {
       card: "summary_large_image",
-      title,
-      description,
-      images: ogImage ? [ogImage] : undefined,
+      title: meta.title,
+      description: meta.description,
     },
     robots: noIndex
       ? { index: false, follow: false }
       : { index: true, follow: true },
   };
 }
-
-export { absoluteUrl };

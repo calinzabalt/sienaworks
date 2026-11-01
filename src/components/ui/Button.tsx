@@ -2,51 +2,63 @@ import Link from "next/link";
 import type { ComponentProps } from "react";
 import { cn } from "@/lib/cn";
 
-type Variant = "primary" | "secondary" | "ghost" | "invert";
+type Variant = "primary" | "secondary" | "ghost" | "inverse";
 type LinkHref = ComponentProps<typeof Link>["href"];
 
 type CommonProps = {
   children: React.ReactNode;
   className?: string;
   variant?: Variant;
-  size?: "sm" | "md";
-  onClick?: () => void;
 };
 
 type ButtonAsButton = CommonProps & {
   href?: undefined;
   type?: "button" | "submit";
   disabled?: boolean;
+  onClick?: () => void;
 };
 
 type ButtonAsLink = CommonProps & {
   href: LinkHref | string;
   type?: never;
   disabled?: never;
+  onClick?: () => void;
 };
 
 export type ButtonProps = ButtonAsButton | ButtonAsLink;
 
 const variants: Record<Variant, string> = {
   primary:
-    "bg-ink text-paper hover:bg-accent border border-ink hover:border-accent",
+    "btn btn-primary bg-accent text-white border border-accent hover:bg-accent-hover hover:border-accent-hover",
   secondary:
-    "bg-transparent text-ink border border-ink/20 hover:border-ink hover:bg-ink hover:text-paper",
-  ghost: "bg-transparent text-ink border border-transparent hover:border-ink/20",
-  invert:
-    "bg-paper text-ink border border-paper hover:bg-transparent hover:text-paper",
+    "btn border border-line-strong bg-surface text-ink hover:border-ink hover:bg-bg",
+  ghost: "btn border border-transparent bg-transparent text-ink hover:border-line",
+  inverse: "btn border border-white bg-white text-navy hover:bg-transparent hover:text-white",
 };
+
+function Arrow() {
+  return (
+    <svg viewBox="0 0 16 16" className="btn-arrow size-4 shrink-0" aria-hidden="true">
+      <path
+        d="M3 8h10M9 4l4 4-4 4"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
 
 export function Button({
   children,
   className,
   variant = "primary",
-  size = "md",
   ...props
 }: ButtonProps) {
   const classes = cn(
-    "inline-flex items-center justify-center gap-2 text-[0.8125rem] font-medium tracking-wide transition-colors duration-200 touch-manipulation",
-    size === "md" ? "min-h-11 px-5 py-3" : "min-h-10 px-4 py-2",
+    "inline-flex min-h-11 cursor-pointer items-center justify-center gap-2 rounded-[var(--radius)] px-5 py-2.5 text-sm font-semibold",
     variants[variant],
     "disabled:cursor-not-allowed disabled:opacity-50",
     className,
@@ -54,30 +66,21 @@ export function Button({
 
   if (props.href !== undefined) {
     const href = props.href;
-    const external =
-      typeof href === "string" && /^https?:\/\//.test(href);
+    const external = typeof href === "string" && /^https?:\/\//.test(href);
 
     if (external) {
       return (
-        <a
-          href={href}
-          className={classes}
-          onClick={props.onClick}
-          target="_blank"
-          rel="noreferrer"
-        >
+        <a href={href} className={classes} onClick={props.onClick}>
           {children}
+          <Arrow />
         </a>
       );
     }
 
     return (
-      <Link
-        href={href as LinkHref}
-        className={classes}
-        onClick={props.onClick}
-      >
+      <Link href={href as LinkHref} className={classes} onClick={props.onClick}>
         {children}
+        <Arrow />
       </Link>
     );
   }
@@ -90,6 +93,7 @@ export function Button({
       onClick={props.onClick}
     >
       {children}
+      <Arrow />
     </button>
   );
 }

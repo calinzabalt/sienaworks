@@ -1,42 +1,39 @@
-import { cn } from "@/lib/cn";
+import { Breadcrumbs } from "./Breadcrumbs";
+import { Container } from "./Container";
+import { DisplayTitle } from "./DisplayTitle";
 
 export function PageHero({
   eyebrow,
   title,
   description,
+  crumbs,
   children,
-  className,
-  descriptionClassName,
 }: {
   eyebrow?: string;
   title: string;
-  description?: string;
+  description: string;
+  crumbs?: { label: string; href?: string }[];
   children?: React.ReactNode;
-  className?: string;
-  descriptionClassName?: string;
 }) {
   return (
-    <header className={cn("pt-12 md:pt-16 pb-10 md:pb-12", className)}>
-      {eyebrow ? <p className="kicker">{eyebrow}</p> : null}
-      <h1
-        className={cn(
-          "font-display text-[2.15rem] sm:text-5xl md:text-[3.5rem] leading-[1.08] tracking-[-0.03em] text-ink max-w-4xl text-pretty",
-          eyebrow && "mt-4",
-        )}
-      >
-        {title}
-      </h1>
-      {description ? (
-        <p
-          className={cn(
-            "mt-5 max-w-xl text-[1.05rem] text-muted leading-relaxed",
-            descriptionClassName,
-          )}
+    <header className="hero relative overflow-hidden text-white">
+      <div className="hero-grid" aria-hidden="true" />
+      <Container className="relative py-14 md:py-20">
+        {crumbs ? <Breadcrumbs items={crumbs} onDark /> : null}
+        {eyebrow ? (
+          <p className="font-mono text-xs font-medium uppercase tracking-[0.14em] text-[#99f6e4]">
+            {eyebrow}
+          </p>
+        ) : null}
+        <DisplayTitle
+          as="h1"
+          className="mt-4 max-w-3xl text-3xl font-semibold tracking-tight text-white sm:text-4xl md:text-5xl"
         >
-          {description}
-        </p>
-      ) : null}
-      {children ? <div className="mt-7">{children}</div> : null}
+          {title}
+        </DisplayTitle>
+        <p className="mt-5 max-w-2xl text-lg leading-relaxed text-mist">{description}</p>
+        {children ? <div className="mt-8 flex flex-col gap-3 sm:flex-row">{children}</div> : null}
+      </Container>
     </header>
   );
 }

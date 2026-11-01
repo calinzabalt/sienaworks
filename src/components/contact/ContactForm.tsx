@@ -1,12 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import { Button } from "@/components/ui/Button";
-import { budgetOptions, projectTypes } from "@/data/contact";
-import { site } from "@/data/site";
-import { cn } from "@/lib/cn";
-import type { ProjectType } from "@/data/contact";
+import { AreaField, CheckField, Field, Honeypot, SelectField } from "@/components/ui/FormFields";
+import { contactFormCopy, formError, serviceOptions } from "@/content/forms";
+import { pathFor } from "@/content/routes";
+import { site } from "@/content/site";
+import type { Locale } from "@/content/types";
+import { track } from "@/lib/consent";
+import { parseContact, type EnquiryService, type ParseError } from "@/lib/enquiry";
 
 type Status =
   | { type: "idle" }
@@ -15,212 +17,143 @@ type Status =
   | { type: "not_configured" }
   | { type: "error"; message: string };
 
-const fieldClass =
-  "mt-2 w-full min-h-11 border border-line bg-paper px-3 py-2.5 text-base text-ink outline-none transition-colors duration-200 placeholder:text-muted/70 focus:border-ink";
-
 export function ContactForm({
-  defaultProjectType,
+  locale,
+  service,
 }: {
-  defaultProjectType?: string;
+  locale: Locale;
+  service?: EnquiryService;
 }) {
-  const initialType = projectTypes.includes(defaultProjectType as ProjectType)
-    ? (defaultProjectType as ProjectType)
-    : "";
-
+  const copy = contactFormCopy(locale);
+  const options = serviceOptions(locale);
   const [status, setStatus] = useState<Status>({ type: "idle" });
+  const [errors, setErrors] = useState<Partial<Record<string, string>>>({});
 
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setStatus({ type: "submitting" });
-
     const form = event.currentTarget;
     const data = Object.fromEntries(new FormData(form).entries());
+    const parsed = parseContact(data);
+
+    if (!parsed.ok) {
+      setErrors({ form: formError(locale, parsed.error) });
+      setStatus({ type: "error", message: formError(locale, parsed.error) });
+      return;
+    }
+
+    setErrors({});
+    setStatus({ type: "submitting" });
 
     try {
       const response = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: JSON.stringify({ ...data, consent: data.consent === "true" }),
       });
+      const payload = (await response.json()) as { error?: ParseError | "not_configured" | "delivery_failed" | "rate_limited" };
 
-      const payload = (await response.json()) as {
-        ok?: boolean;
-        error?: string;
-      };
+      if (response.status === 429) {
+        setStatus({ type: "error", message: copy.limited });
+        return;
+      }
 
-      if (response.status === 503 && payload.error === "not_configured") {
+      if (response.status === 503 || payload.error === "not_configured") {
         setStatus({ type: "not_configured" });
         return;
       }
 
       if (!response.ok) {
-        setStatus({
-          type: "error",
-          message: payload.error ?? "Something went wrong. Please email us instead.",
-        });
+        const code = isParseError(payload.error) ? payload.error : "invalid";
+        const message =
+          payload.error === "delivery_failed" ? copy.failed : formError(locale, code);
+        setStatus({ type: "error", message });
         return;
       }
 
       form.reset();
       setStatus({ type: "success" });
+      track("generate_lead", { form: "contact" });
     } catch {
-      setStatus({
-        type: "error",
-        message: "The form could not be sent. Please email us instead.",
-      });
+      setStatus({ type: "error", message: copy.failed });
     }
   }
 
   return (
-    <form onSubmit={onSubmit} className="relative grid gap-5" noValidate={false}>
-      <div className="grid gap-5 sm:grid-cols-2">
-        <Field label="Name" name="name" required autoComplete="name" />
-        <Field label="Company" name="company" autoComplete="organization" />
-      </div>
-      <div className="grid gap-5 sm:grid-cols-2">
-        <Field
-          label="Email"
-          name="email"
-          type="email"
-          required
-          autoComplete="email"
-        />
-        <Field
-          label="Website"
-          name="website"
-          placeholder="https://"
-          autoComplete="url"
-        />
-      </div>
-      <div className="grid gap-5 sm:grid-cols-2">
-        <div>
-          <label htmlFor="projectType" className="text-[0.8125rem] font-medium">
-            Project type
-          </label>
-          <select
-            id="projectType"
-            name="projectType"
-            required
-            defaultValue={initialType}
-            className={fieldClass}
-          >
-            <option value="" disabled>
-              Select…
-            </option>
-            {projectTypes.map((type) => (
-              <option key={type} value={type}>
-                {type}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div>
-          <label htmlFor="budget" className="text-[0.8125rem] font-medium">
-            Budget
-          </label>
-          <select id="budget" name="budget" required defaultValue="" className={fieldClass}>
-            <option value="" disabled>
-              Select…
-            </option>
-            {budgetOptions.map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
-      <div>
-        <label htmlFor="message" className="text-[0.8125rem] font-medium">
-          Message
-        </label>
-        <textarea
-          id="message"
-          name="message"
-          required
-          rows={6}
-          className={cn(fieldClass, "min-h-[10rem] resize-y")}
-        />
-      </div>
-
-      <div className="sr-only" aria-hidden="true">
-        <label htmlFor="honeypot">Company website</label>
-        <input id="honeypot" name="honeypot" type="text" tabIndex={-1} autoComplete="off" />
-      </div>
-
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
-        <Button type="submit" disabled={status.type === "submitting"} className="w-full sm:w-auto">
-          {status.type === "submitting" ? "Sending…" : "Send Enquiry"}
+    <form onSubmit={onSubmit} className="card form-panel form-grid relative p-5 sm:p-6" noValidate>
+      <p className="form-span text-sm text-muted">{copy.requiredNote}</p>
+      <Honeypot />
+      <Field label={`${copy.name} *`} name="name" autoComplete="name" error={errors.name} />
+      <Field label={`${copy.email} *`} name="email" type="email" autoComplete="email" error={errors.email} />
+      <Field
+        label={`${copy.website} (${copy.websiteHint})`}
+        name="website"
+        type="url"
+        autoComplete="url"
+        error={errors.website}
+      />
+      <SelectField label={`${copy.service} *`} name="service" defaultValue={service ?? ""}>
+        <option value="">{locale === "ro" ? "Alege" : "Choose"}</option>
+        {options.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </SelectField>
+      <AreaField className="form-span" label={`${copy.message} *`} name="message" />
+      <CheckField className="form-span" name="consent" value="true">
+        {copy.consent}{" "}
+        <a className="text-accent-hover underline underline-offset-4" href={pathFor("privacy", locale)}>
+          {copy.privacy}
+        </a>
+      </CheckField>
+      <div className="form-span">
+        <Button type="submit" disabled={status.type === "submitting"}>
+          {status.type === "submitting" ? copy.sending : copy.submit}
         </Button>
-        <p className="text-[0.8125rem] text-muted">
-          Or email{" "}
-          <a className="text-ink underline decoration-line underline-offset-4" href={`mailto:${site.email}`}>
-            {site.email}
-          </a>
-        </p>
       </div>
-      <p className="text-[0.8125rem] text-muted">
-        We use this to reply to your enquiry.{" "}
-        <Link
-          href="/privacy"
-          className="text-ink underline decoration-line underline-offset-4"
-        >
-          Privacy notice
-        </Link>
-        .
+      <StatusMessage status={status} copy={copy} />
+      <p className="form-span text-sm text-muted">
+        {copy.emailInstead}{" "}
+        <a className="text-ink underline underline-offset-4" href={`mailto:${site.email}`}>
+          {site.email}
+        </a>
       </p>
-
-      <div aria-live="polite">
-        {status.type === "success" ? (
-          <p className="text-[0.95rem] text-ink">Enquiry sent. We will get back to you.</p>
-        ) : null}
-        {status.type === "not_configured" ? (
-          <p className="text-[0.95rem] text-ink">
-            This form is not connected to email delivery yet. Please send your enquiry to{" "}
-            <a className="underline decoration-line underline-offset-4" href={`mailto:${site.email}`}>
-              {site.email}
-            </a>
-            .
-          </p>
-        ) : null}
-        {status.type === "error" ? (
-          <p className="text-[0.95rem] text-accent">{status.message}</p>
-        ) : null}
-      </div>
     </form>
   );
 }
 
-function Field({
-  label,
-  name,
-  type = "text",
-  required,
-  autoComplete,
-  placeholder,
+function StatusMessage({
+  status,
+  copy,
 }: {
-  label: string;
-  name: string;
-  type?: string;
-  required?: boolean;
-  autoComplete?: string;
-  placeholder?: string;
+  status: Status;
+  copy: ReturnType<typeof contactFormCopy>;
 }) {
-  return (
-    <div>
-      <label htmlFor={name} className="text-[0.8125rem] font-medium">
-        {label}
-        {required ? <span className="sr-only"> (required)</span> : null}
-      </label>
-      <input
-        id={name}
-        name={name}
-        type={type}
-        required={required}
-        autoComplete={autoComplete}
-        placeholder={placeholder}
-        className={fieldClass}
-      />
-    </div>
-  );
+  if (status.type === "success") {
+    return (
+      <p role="status" className="form-span rounded-[var(--radius)] bg-ok-bg px-4 py-3 text-sm text-ok">
+        {copy.success}
+      </p>
+    );
+  }
+  if (status.type === "not_configured") {
+    return (
+      <p role="alert" className="form-span rounded-[var(--radius)] bg-danger-bg px-4 py-3 text-sm text-danger">
+        {copy.notConfigured} {site.email}
+      </p>
+    );
+  }
+  if (status.type === "error") {
+    return (
+      <p role="alert" className="form-span rounded-[var(--radius)] bg-danger-bg px-4 py-3 text-sm text-danger">
+        {status.message}
+      </p>
+    );
+  }
+  return null;
 }
+
+function isParseError(value: unknown): value is ParseError {
+  return typeof value === "string";
+}
+
