@@ -10,6 +10,15 @@ export function organizationJsonLd() {
     name: site.name,
     url: absoluteUrl("/"),
     email: site.email,
+    telephone: site.phone,
+    description:
+      "Technical website services: speed, repairs, maintenance, new websites and custom development.",
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "Zăbalț",
+      addressRegion: "Arad",
+      addressCountry: "RO",
+    },
   };
 }
 

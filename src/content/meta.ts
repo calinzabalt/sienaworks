@@ -81,12 +81,12 @@ const meta: Record<RouteId, Record<Locale, PageMeta>> = {
     en: {
       title: "Free Website Health Check",
       description:
-        "Send your website address. The reply is emailed as a PDF within 24–48 working hours.",
+        "Speed, SEO, mobile, forms and updates. The written reply is emailed as a PDF within 24–48 working hours.",
     },
     ro: {
       title: "Verificare gratuită site",
       description:
-        "Trimite adresa site-ului. Răspunsul pleacă pe e-mail, în PDF, în 24–48 de ore lucrătoare.",
+        "Viteză, SEO, mobil, formulare și actualizări. Răspunsul pleacă pe e-mail, în PDF, în 24–48 de ore lucrătoare.",
     },
   },
   caseStudies: {

@@ -593,66 +593,41 @@ summary {
   font-weight: 600;
 }
 
-.motion-graph,
-.motion-fix,
-.motion-path {
-  width: 100%;
-  height: auto;
+.contact-channel {
+  display: grid;
+  gap: 0.15rem;
+  padding: 1rem 1.15rem;
+  color: var(--ink);
 }
 
-.motion-axis {
-  stroke: var(--line-strong);
-  stroke-width: 1.25;
+.contact-channel + .contact-channel {
+  border-top: 1px solid var(--line);
 }
 
-.motion-bar {
-  fill: var(--accent);
-  transform-box: fill-box;
-  transform-origin: center bottom;
-  animation: bar-rise 1.5s ease both;
+.contact-channel span {
+  color: var(--muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
-.motion-bar:nth-child(2) { animation-delay: 0.08s; }
-.motion-bar:nth-child(3) { animation-delay: 0.16s; }
-.motion-bar:nth-child(4) { animation-delay: 0.24s; }
-.motion-bar:nth-child(5) { animation-delay: 0.32s; opacity: 0.55; }
-
-.motion-draw {
-  fill: none;
-  stroke: var(--accent);
-  stroke-width: 2.25;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  stroke-dasharray: 160;
-  stroke-dashoffset: 0;
-  animation: motion-draw 1.5s ease both;
+.contact-channel strong {
+  font-size: 1.05rem;
+  font-weight: 600;
 }
 
-.motion-node {
-  fill: var(--accent-soft);
-  stroke: var(--accent);
-  stroke-width: 2;
+.contact-channel:hover strong {
+  color: var(--accent-hover);
 }
 
-.motion-node-late {
-  transform-box: fill-box;
-  transform-origin: center;
-  animation: motion-pop 0.45s 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
-@keyframes bar-rise {
-  from { transform: scaleY(0.2); }
-  to { transform: scaleY(1); }
-}
-
-@keyframes motion-draw {
-  from { stroke-dashoffset: 160; }
-  to { stroke-dashoffset: 0; }
-}
-
-@keyframes motion-pop {
-  from { transform: scale(0.5); opacity: 0; }
-  to { transform: none; opacity: 1; }
+.contact-quote {
+  margin: 0;
+  border-left: 3px solid var(--accent);
+  padding-left: 1rem;
+  color: var(--ink);
+  font-size: 1.125rem;
+  line-height: 1.45;
 }
 
 .hero {

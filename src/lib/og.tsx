@@ -2,6 +2,14 @@ import { ImageResponse } from "next/og";
 
 export const ogSize = { width: 1200, height: 630 };
 
+const logo = `data:image/svg+xml,${encodeURIComponent(
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+    <rect width="32" height="32" rx="8" fill="#163047"/>
+    <path d="M20.6 11.2C20.6 8.3 11.4 8.1 11.4 12.2c0 2.7 5.2 2.9 7.6 4 2.2.9 1.8 5.6-6.8 4.6" fill="none" stroke="#f4f7fa" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="19.2" y="19.2" width="6.2" height="6.2" rx="1.4" fill="#2dd4bf"/>
+  </svg>`,
+)}`;
+
 export function renderOg(title: string, subtitle: string) {
   return new ImageResponse(
     (
@@ -10,29 +18,31 @@ export function renderOg(title: string, subtitle: string) {
           width: "100%",
           height: "100%",
           display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
           background: "#0c1b2a",
           color: "#f3f5f7",
-          padding: "72px",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 16, fontSize: 28 }}>
-          <div
-            style={{
-              width: 18,
-              height: 18,
-              background: "#0f766e",
-              borderRadius: 4,
-            }}
-          />
-          Sienaworks
-        </div>
-        <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-          <div style={{ fontSize: 58, lineHeight: 1.1, maxWidth: 920, fontWeight: 600 }}>
-            {title}
+        <div style={{ width: 16, height: "100%", background: "#0f766e" }} />
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+            width: "100%",
+            padding: "68px 76px",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
+            <img src={logo} width={72} height={72} alt="" />
+            <div style={{ fontSize: 36, letterSpacing: -0.5 }}>Sienaworks</div>
           </div>
-          <div style={{ fontSize: 26, color: "#c9d4de", maxWidth: 760 }}>{subtitle}</div>
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <div style={{ fontSize: 58, lineHeight: 1.12, maxWidth: 960 }}>{title}</div>
+            <div style={{ marginTop: 24, fontSize: 28, color: "#c9d4de", maxWidth: 860 }}>
+              {subtitle}
+            </div>
+          </div>
+          <div style={{ fontSize: 24, color: "#9fb0bf" }}>sienaworks.com</div>
         </div>
       </div>
     ),

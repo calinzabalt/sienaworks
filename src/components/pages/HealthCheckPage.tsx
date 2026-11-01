@@ -35,24 +35,22 @@ export function HealthCheckPage({ locale }: { locale: Locale }) {
           <HealthForm locale={locale} />
         </Container>
       </section>
-      <Container className="grid gap-8 py-16 md:grid-cols-[1.2fr_0.8fr]">
+      <Container className="grid items-start gap-8 py-16 lg:grid-cols-[minmax(0,1fr)_18rem]">
         <div>
           <h2 className="text-2xl font-semibold tracking-tight">{copy.checksTitle}</h2>
-          <ul className="mt-6 grid gap-3">
+          <p className="mt-3 max-w-2xl leading-relaxed text-ink-soft">{copy.checksIntro}</p>
+          <ul className="mt-6 grid gap-3 sm:grid-cols-2">
             {copy.checks.map((check, index) => (
-              <li key={check} className="card flex items-baseline gap-4 p-4">
-                <span className="font-mono text-xs text-accent-hover">{String(index + 1).padStart(2, "0")}</span>
-                <span className="text-sm leading-relaxed text-ink-soft">{check}</span>
+              <li key={check.title} className="card p-5">
+                <p className="font-mono text-xs text-accent-hover">{String(index + 1).padStart(2, "0")}</p>
+                <h3 className="mt-2 font-semibold">{check.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-ink-soft">{check.text}</p>
               </li>
             ))}
           </ul>
         </div>
         <aside className="card h-fit p-6">
-          <p className="leading-relaxed text-ink-soft">
-            {locale === "ro"
-              ? "Dacă știi deja problema, o poți descrie direct."
-              : "If you already know the problem, describe it directly."}
-          </p>
+          <p className="leading-relaxed text-ink-soft">{copy.aside}</p>
           <div className="mt-5">
             <Button href={pathFor("contact", locale)} variant="secondary">
               {copy.contactCta}

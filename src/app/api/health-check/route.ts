@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { parseHealthCheck } from "@/lib/enquiry";
-import { escapeHtml, sendMail } from "@/lib/mail";
+import { websiteTypeOptions } from "@/content/forms";
+import { noticeEmail, sendMail, viaSienaworks } from "@/lib/mail";
 import { allowRequest, clientKey } from "@/lib/rate-limit";
 
 export const runtime = "nodejs";
@@ -27,25 +28,27 @@ export async function POST(request: Request) {
   }
 
   const enquiry = parsed.data;
+  const host = new URL(enquiry.url).hostname.replace(/^www\./, "");
+  const websiteType =
+    websiteTypeOptions("en").find((item) => item.value === enquiry.websiteType)?.label ??
+    "Not specified";
+  const notice = noticeEmail({
+    kind: "Free website health check",
+    who: enquiry.email,
+    detail: enquiry.url,
+    detailHref: enquiry.url,
+    rows: [
+      { label: "Type", value: websiteType },
+      { label: "Access", value: "They confirmed they can authorise work on this site." },
+    ],
+    note: "Reply by email with a PDF within 24–48 working hours. Review it yourself. This form did not open the address.",
+  });
+
   const result = await sendMail({
     replyTo: enquiry.email,
-    subject: `Health check request — ${enquiry.url}`,
-    text: [
-      "Website health check request",
-      "Review this by hand and reply by email with a PDF within 24-48 working hours.",
-      "The website did not fetch the URL.",
-      "",
-      `URL: ${enquiry.url}`,
-      `Email: ${enquiry.email}`,
-      `Website type: ${enquiry.websiteType || "—"}`,
-      "Ownership confirmed: yes",
-    ].join("\n"),
-    html: `<p>Website health check request</p>
-<p>Review this by hand and reply by email with a PDF within 24-48 working hours. The website did not fetch the URL.</p>
-<p><strong>URL:</strong> ${escapeHtml(enquiry.url)}<br>
-<strong>Email:</strong> ${escapeHtml(enquiry.email)}<br>
-<strong>Website type:</strong> ${escapeHtml(enquiry.websiteType || "—")}<br>
-<strong>Ownership confirmed:</strong> yes</p>`,
+    fromName: viaSienaworks(host),
+    subject: `Health check · ${host}`,
+    ...notice,
   });
 
   if (result.ok) {

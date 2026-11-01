@@ -1,12 +1,16 @@
 import Link from "next/link";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { Button } from "@/components/ui/Button";
 import { DisplayTitle } from "@/components/ui/DisplayTitle";
 import { Container } from "@/components/ui/Container";
+import { FaqList } from "@/components/ui/FaqList";
 import { ScanSketch } from "@/components/ui/ScanSketch";
 import { Section, SectionHeading } from "@/components/ui/Section";
+import { faqFor } from "@/content/faq";
 import { homeCopy } from "@/content/home";
 import { pathFor } from "@/content/routes";
 import type { Locale } from "@/content/types";
+import { faqJsonLd } from "@/lib/schema";
 import { publishedCaseStudies } from "@/content/case-studies";
 import { CaseStudyList } from "./CaseStudyList";
 
@@ -28,9 +32,11 @@ function Arrow() {
 export function HomePage({ locale }: { locale: Locale }) {
   const copy = homeCopy(locale);
   const studies = publishedCaseStudies();
+  const faqs = faqFor("home", locale);
 
   return (
     <>
+      {faqs.length > 0 ? <JsonLd data={faqJsonLd(faqs)} /> : null}
       <section className="hero relative overflow-hidden text-white">
         <div className="hero-grid" aria-hidden="true" />
         <Container className="relative grid items-center gap-12 py-16 md:py-24 lg:grid-cols-[1.12fr_0.88fr] lg:py-28">
@@ -143,6 +149,7 @@ export function HomePage({ locale }: { locale: Locale }) {
         </Section>
       ) : null}
 
+      <FaqList title={locale === "ro" ? "Întrebări frecvente" : "Questions"} items={faqs} />
       <section className="hero relative overflow-hidden text-white">
         <div className="hero-grid" aria-hidden="true" />
         <Container className="relative py-16 md:py-20">

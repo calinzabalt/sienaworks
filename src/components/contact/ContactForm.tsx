@@ -112,12 +112,6 @@ export function ContactForm({
         </Button>
       </div>
       <StatusMessage status={status} copy={copy} />
-      <p className="form-span text-sm text-muted">
-        {copy.emailInstead}{" "}
-        <a className="text-ink underline underline-offset-4" href={`mailto:${site.email}`}>
-          {site.email}
-        </a>
-      </p>
     </form>
   );
 }

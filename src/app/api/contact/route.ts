@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { serviceOptions } from "@/content/forms";
 import { parseContact } from "@/lib/enquiry";
-import { escapeHtml, sendMail } from "@/lib/mail";
+import { noticeEmail, sendMail, viaSienaworks } from "@/lib/mail";
 import { allowRequest, clientKey } from "@/lib/rate-limit";
 
 export const runtime = "nodejs";
@@ -28,25 +28,26 @@ export async function POST(request: Request) {
     serviceOptions("en").find((item) => item.value === enquiry.service)?.label ??
     enquiry.service;
 
+  const notice = noticeEmail({
+    kind: "Contact form",
+    who: enquiry.name,
+    detail: enquiry.email,
+    detailHref: `mailto:${enquiry.email}`,
+    rows: [
+      { label: "Service", value: service },
+      ...(enquiry.website
+        ? [{ label: "Website", value: enquiry.website, href: enquiry.website }]
+        : []),
+    ],
+    message: enquiry.message,
+  });
+
   const result = await sendMail({
     replyTo: enquiry.email,
-    subject: `Enquiry: ${service} — ${enquiry.name}`,
-    text: [
-      "New website enquiry",
-      "",
-      `Name: ${enquiry.name}`,
-      `Email: ${enquiry.email}`,
-      `Website: ${enquiry.website || "—"}`,
-      `Service: ${service}`,
-      "",
-      enquiry.message,
-    ].join("\n"),
-    html: `<p>New website enquiry</p>
-<p><strong>Name:</strong> ${escapeHtml(enquiry.name)}<br>
-<strong>Email:</strong> ${escapeHtml(enquiry.email)}<br>
-<strong>Website:</strong> ${escapeHtml(enquiry.website || "—")}<br>
-<strong>Service:</strong> ${escapeHtml(service)}</p>
-<p style="white-space:pre-wrap">${escapeHtml(enquiry.message)}</p>`,
+    replyName: enquiry.name,
+    fromName: viaSienaworks(enquiry.name),
+    subject: `Contact form · ${enquiry.name} · ${service}`,
+    ...notice,
   });
 
   if (result.ok) return NextResponse.json({ ok: true });

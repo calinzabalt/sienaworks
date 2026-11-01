@@ -22,6 +22,17 @@ export function createMetadata({
     "x-default": absoluteUrl(pathFor(routeId, "en")),
   };
 
+  const image =
+    locale === "ro"
+      ? {
+          url: "/share/ro",
+          alt: "Sienaworks — servicii tehnice pentru site-uri",
+        }
+      : {
+          url: "/share/en",
+          alt: "Sienaworks — technical website services",
+        };
+
   return {
     title: meta.absolute ? { absolute: meta.title } : meta.title,
     description: meta.description,
@@ -36,11 +47,13 @@ export function createMetadata({
       siteName: site.name,
       locale: locale === "ro" ? "ro_RO" : "en_GB",
       type: "website",
+      images: [{ ...image, width: 1200, height: 630 }],
     },
     twitter: {
       card: "summary_large_image",
       title: meta.title,
       description: meta.description,
+      images: [image],
     },
     robots: noIndex
       ? { index: false, follow: false }
