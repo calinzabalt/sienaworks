@@ -4,7 +4,7 @@ import { site } from "@/content/site";
 import "../globals.css";
 
 export const viewport: Viewport = {
-  themeColor: "#0c1b2a",
+  themeColor: "#f5f6f8",
   width: "device-width",
   initialScale: 1,
 };
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     template: "%s | Sienaworks",
   },
   applicationName: site.name,
-  icons: { icon: "/favicon.svg" },
+  icons: { icon: "/favicon.svg", apple: "/apple-icon.png" },
 };
 
 export default function EnglishLayout({ children }: { children: React.ReactNode }) {

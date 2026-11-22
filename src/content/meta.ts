@@ -21,12 +21,12 @@ const meta: Record<RouteId, Record<Locale, PageMeta>> = {
     en: {
       title: "Website Performance",
       description:
-        "Find what slows a website down and improve how fast the pages load.",
+        "Find what slows a website down and improve how fast the pages load, on mobile and desktop, with a clear note of what changed.",
     },
     ro: {
       title: "Optimizare viteză WordPress",
       description:
-        "Aflăm ce încetinește site-ul și îmbunătățim viteza de încărcare.",
+        "Aflăm ce încetinește site-ul și îmbunătățim viteza de încărcare pe mobil și desktop, cu o notă clară despre ce s-a schimbat.",
     },
   },
   fix: {
@@ -45,12 +45,12 @@ const meta: Record<RouteId, Record<Locale, PageMeta>> = {
     en: {
       title: "Website Maintenance & Monitoring",
       description:
-        "Updates, backups and monitoring so the website stays looked after.",
+        "Updates, backups and monitoring so the website stays looked after, and problems are caught before your visitors notice them.",
     },
     ro: {
       title: "Mentenanță WordPress",
       description:
-        "Actualizări, copii de siguranță și monitorizare pentru site-ul tău.",
+        "Actualizări, copii de siguranță și monitorizare pentru site-ul tău, ca problemele să fie prinse înainte să le vadă vizitatorii.",
     },
   },
   development: {
@@ -93,19 +93,19 @@ const meta: Record<RouteId, Record<Locale, PageMeta>> = {
     en: {
       title: "Case Studies",
       description:
-        "Examples of how Sienaworks investigates and fixes technical website problems.",
+        "Real projects by Sienaworks: a crypto membership platform, a lead-generation site for a solar installer and an AI video SaaS.",
     },
     ro: {
       title: "Studii de caz",
       description:
-        "Exemple despre cum investigăm și rezolvăm probleme tehnice pe site-uri.",
+        "Proiecte reale Sienaworks: o platformă crypto cu abonamente, un site de lead-uri pentru panouri solare și un SaaS video cu AI.",
     },
   },
   pricing: {
     en: {
       title: "Pricing",
       description:
-        "Starting prices for technical website services. The final price depends on the website and the work.",
+        "Prices for technical website services, confirmed on request. The price depends on the website and the size of the work.",
     },
     ro: {
       title: "Prețuri",
@@ -134,7 +134,7 @@ const meta: Record<RouteId, Record<Locale, PageMeta>> = {
     ro: {
       title: "Contact",
       description:
-        "Spune-ne ce se întâmplă cu site-ul. Îți răspundem pe e-mail.",
+        "Spune-ne ce se întâmplă cu site-ul sau ce vrei să construiești. Îți răspundem pe e-mail, cu pașii următori.",
     },
   },
   privacy: {

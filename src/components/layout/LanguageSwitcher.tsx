@@ -1,60 +1,64 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
+import type { MouseEvent } from "react";
 import { chrome } from "@/content/chrome";
 import { switchLocale } from "@/content/routes";
 import type { Locale } from "@/content/types";
 import { cn } from "@/lib/cn";
 
-export function LanguageSwitcher({
-  locale,
-  onDark = false,
-}: {
-  locale: Locale;
-  onDark?: boolean;
-}) {
+/**
+ * "RO / EN" in mono, the current language in ink.
+ * The links are built from the pathname only, so they are in the server HTML.
+ * A query string (e.g. ?service=… on contact) is carried over on click instead
+ * of being read with useSearchParams, which would make this render client-only.
+ */
+export function LanguageSwitcher({ locale, onDark = false }: { locale: Locale; onDark?: boolean }) {
   const pathname = usePathname();
-  const search = useSearchParams();
-  const query = search.toString();
-  const suffix = query ? `?${query}` : "";
+  const router = useRouter();
   const copy = chrome(locale);
+  const order: Locale[] = locale === "ro" ? ["ro", "en"] : ["en", "ro"];
 
-  const links: { locale: Locale; label: string }[] = [
-    { locale: "en", label: "EN" },
-    { locale: "ro", label: "RO" },
-  ];
+  function keepQuery(event: MouseEvent<HTMLAnchorElement>, href: string) {
+    const query = window.location.search;
+    if (!query || event.metaKey || event.ctrlKey || event.shiftKey || event.button !== 0) return;
+    event.preventDefault();
+    router.push(`${href}${query}`);
+  }
 
   return (
-    <nav
-      aria-label={copy.language}
-      className={cn(
-        "inline-flex rounded-full border p-0.5",
-        onDark ? "border-white/15 bg-white/5" : "border-line bg-surface",
-      )}
-    >
-      {links.map((link) => {
-        const current = link.locale === locale;
+    <nav aria-label={copy.language} className="mono flex items-center gap-2 text-xs">
+      {order.map((code, index) => {
+        const current = code === locale;
+        const href = switchLocale(pathname, code);
         return (
-          <Link
-            key={link.locale}
-            href={`${switchLocale(pathname, link.locale)}${suffix}`}
-            hrefLang={link.locale}
-            lang={link.locale}
-            aria-current={current ? "true" : undefined}
-            className={cn(
-              "cursor-pointer rounded-full px-2.5 py-1.5 text-xs font-medium tracking-wide",
-              current
-                ? onDark
-                  ? "bg-white text-navy"
-                  : "bg-navy text-white"
-                : onDark
-                  ? "text-mist hover:text-white"
-                  : "text-ink-soft hover:text-ink",
-            )}
-          >
-            {link.label}
-          </Link>
+          <span key={code} className="flex items-center gap-2">
+            {index > 0 ? (
+              <span aria-hidden="true" className={onDark ? "text-white/40" : "text-faint"}>
+                /
+              </span>
+            ) : null}
+            <Link
+              href={href}
+              onClick={(event) => keepQuery(event, href)}
+              hrefLang={code}
+              lang={code}
+              aria-current={current ? "true" : undefined}
+              className={cn(
+                "inline-flex min-h-8 items-center px-0.5 uppercase",
+                current
+                  ? onDark
+                    ? "font-medium text-white"
+                    : "font-medium text-ink"
+                  : onDark
+                    ? "text-white/60 hover:text-white"
+                    : "text-soft hover:text-ink",
+              )}
+            >
+              {code}
+            </Link>
+          </span>
         );
       })}
     </nav>

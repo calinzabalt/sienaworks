@@ -1,4 +1,3 @@
-import { Suspense } from "react";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { chrome, serviceNav } from "@/content/chrome";
@@ -14,23 +13,26 @@ export function Header({ locale }: { locale: Locale }) {
   const services = serviceNav(locale);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-line bg-bg shadow-[0_10px_30px_-24px_rgba(12,27,42,0.65)]">
+    <header className="site-header sticky top-0 z-40">
       <Container className="flex h-[var(--header-height)] items-center justify-between gap-4">
         <Logo locale={locale} />
         <DesktopNav
           locale={locale}
           label={copy.navLabel}
           servicesLabel={copy.services}
-          health={copy.health}
-          pricing={copy.pricing}
-          caseStudies={copy.caseStudies}
+          links={[
+            { href: pathFor("caseStudies", locale), label: copy.caseStudies },
+            { href: pathFor("pricing", locale), label: copy.pricing },
+            { href: pathFor("about", locale), label: copy.about },
+            { href: pathFor("contact", locale), label: copy.contact },
+          ]}
           services={services}
         />
-        <div className="hidden items-center gap-3 lg:flex">
-          <Suspense fallback={null}>
-            <LanguageSwitcher locale={locale} />
-          </Suspense>
-          <Button href={pathFor("contact", locale)}>{copy.contactCta}</Button>
+        <div className="hidden items-center gap-5 lg:flex">
+          <LanguageSwitcher locale={locale} />
+          <Button href={pathFor("healthCheck", locale)} variant="ink" arrow={false} className="min-h-11 px-[1.1rem] text-sm">
+            {copy.health}
+          </Button>
         </div>
         <MobileNav locale={locale} services={services} />
       </Container>

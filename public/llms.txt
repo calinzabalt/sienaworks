@@ -16,6 +16,10 @@ The free website check is a form. The reply is emailed as a PDF within 24–48 w
 - [Maintenance and monitoring](https://sienaworks.com/services/maintenance-monitoring)
 - [Website development](https://sienaworks.com/services/website-development)
 - [Custom development](https://sienaworks.com/services/custom-development)
+- [Case studies](https://sienaworks.com/case-studies)
+- [Case study: ABCrypto Romania](https://sienaworks.com/case-studies/abcrypto): WordPress membership platform with Stripe subscriptions, Discord roles and exchange API checks, with a video walkthrough
+- [Case study: MontarePanouri.ro](https://sienaworks.com/case-studies/montarepanouri): Next.js lead-generation site for a solar panel installer, with five quote forms on one API, consent-based GA4 and Google Ads tracking and local SEO, with a video walkthrough
+- [Case study: SimpleVids](https://sienaworks.com/case-studies/simplevids): AI video SaaS that turns a script into a vertical video and publishes it to TikTok and YouTube, with Stripe credits
 - [Pricing](https://sienaworks.com/pricing)
 - [About](https://sienaworks.com/about)
 - [Contact](https://sienaworks.com/contact)
@@ -32,6 +36,10 @@ The free website check is a form. The reply is emailed as a PDF within 24–48 w
 - [Mentenanță](https://sienaworks.com/ro/servicii/mentenanta-monitorizare)
 - [Dezvoltare web](https://sienaworks.com/ro/servicii/dezvoltare-web)
 - [Dezvoltare personalizată](https://sienaworks.com/ro/servicii/dezvoltare-personalizata)
+- [Studii de caz](https://sienaworks.com/ro/studii-de-caz)
+- [Studiu de caz: ABCrypto Romania](https://sienaworks.com/ro/studii-de-caz/abcrypto): platformă WordPress cu abonamente Stripe, roluri Discord și verificări prin API-urile exchange-urilor, cu videoclip
+- [Studiu de caz: MontarePanouri.ro](https://sienaworks.com/ro/studii-de-caz/montarepanouri): site Next.js de generare de lead-uri pentru o firmă de montaj panouri solare, cu cinci formulare de ofertă într-un singur API, urmărire GA4 și Google Ads doar după acord și SEO local, cu videoclip
+- [Studiu de caz: SimpleVids](https://sienaworks.com/ro/studii-de-caz/simplevids): SaaS video cu AI care transformă un text într-un video vertical și îl publică pe TikTok și YouTube, cu credite Stripe
 - [Prețuri](https://sienaworks.com/ro/preturi)
 - [Despre](https://sienaworks.com/ro/despre)
 - [Contact](https://sienaworks.com/ro/contact)

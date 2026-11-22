@@ -106,7 +106,6 @@ export function contactFormCopy(locale: Locale) {
       failed: "Mesajul nu a putut fi trimis. Încearcă din nou sau scrie-ne direct.",
       limited: "Prea multe încercări. Așteaptă câteva minute și încearcă din nou.",
       requiredNote: "Câmpurile marcate cu * sunt obligatorii.",
-      emailInstead: "Sau scrie la",
     };
   }
 
@@ -126,7 +125,6 @@ export function contactFormCopy(locale: Locale) {
     failed: "The message could not be sent. Try again, or email us directly.",
     limited: "Too many attempts. Wait a few minutes and try again.",
     requiredNote: "Fields marked * are required.",
-    emailInstead: "Or email",
   };
 }
 

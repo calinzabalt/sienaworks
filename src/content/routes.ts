@@ -63,7 +63,27 @@ export function matchRoute(pathname: string): { id: RouteId; locale: Locale } | 
   return null;
 }
 
+/** Detail page of a case study: /case-studies/{slug} and /ro/studii-de-caz/{slug}. */
+export function caseStudyPath(slug: string, locale: Locale) {
+  return `${routes.caseStudies[locale]}/${slug}`;
+}
+
+/** The slug when the path is a case study detail page, else null. */
+export function matchCaseStudy(pathname: string): { slug: string; locale: Locale } | null {
+  const path = normalizePath(pathname);
+  for (const locale of ["en", "ro"] as const) {
+    const prefix = `${routes.caseStudies[locale]}/`;
+    if (path.startsWith(prefix)) {
+      const slug = path.slice(prefix.length);
+      if (slug && !slug.includes("/")) return { slug, locale };
+    }
+  }
+  return null;
+}
+
 export function switchLocale(pathname: string, target: Locale) {
+  const study = matchCaseStudy(pathname);
+  if (study) return caseStudyPath(study.slug, target);
   const match = matchRoute(pathname);
   if (!match) return pathFor("home", target);
   return pathFor(match.id, target);

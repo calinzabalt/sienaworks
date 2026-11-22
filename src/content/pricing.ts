@@ -143,14 +143,34 @@ export function formatPrice(money: Money, locale: Locale, currency: "RON" | "EUR
   }
 
   if (money.amount == null) {
-    const monthly = money.period === "month" ? (locale === "ro" ? " / lună" : " / month") : "";
-    return locale === "ro"
-      ? `Prețul de pornire în EUR se confirmă la cerere${monthly}`
-      : `EUR starting price confirmed on request${monthly}`;
+    const monthly = money.period === "month";
+    if (locale === "ro") return monthly ? "Lunar, confirmat la cerere" : "Confirmat la cerere";
+    return monthly ? "Monthly, confirmed on request" : "Confirmed on request";
   }
 
   const period =
     money.period === "month" ? (locale === "ro" ? " / lună" : " / month") : "";
   const prefix = locale === "ro" ? "De la" : "Starting at";
   return `${prefix} ${money.amount} ${currency}${period}`;
+}
+
+const planForRoute: Partial<Record<RouteId, string>> = {
+  healthCheck: "health",
+  performance: "performance",
+  fix: "fix",
+  maintenance: "care",
+  custom: "custom",
+};
+
+/** Short price for a service card: "de la 900 RON", "Free", "Individual quote", "On request". */
+export function shortPrice(routeId: RouteId, locale: Locale) {
+  const plan = pricingPlans.find((item) => item.id === planForRoute[routeId]);
+  if (!plan) return locale === "ro" ? "ofertă individuală" : "individual quote";
+  const money = locale === "ro" ? plan.ron : plan.eur;
+  if (money.kind === "free") return locale === "ro" ? "gratuit" : "free";
+  if (money.kind === "quote") return locale === "ro" ? "ofertă individuală" : "individual quote";
+  if (money.amount == null) return locale === "ro" ? "la cerere" : "on request";
+  const period = money.period === "month" ? (locale === "ro" ? " / lună" : " / month") : "";
+  const currency = locale === "ro" ? "RON" : "EUR";
+  return locale === "ro" ? `de la ${money.amount} ${currency}${period}` : `from ${money.amount} ${currency}${period}`;
 }

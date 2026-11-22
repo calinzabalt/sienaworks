@@ -6,7 +6,7 @@ import { CheckField, Field, Honeypot, SelectField } from "@/components/ui/FormFi
 import { formError, healthFormCopy, websiteTypeOptions } from "@/content/forms";
 import { site } from "@/content/site";
 import type { Locale } from "@/content/types";
-import { track } from "@/lib/consent";
+import { trackLead } from "@/lib/consent";
 import { parseHealthCheck, type ParseError } from "@/lib/enquiry";
 
 type Status =
@@ -66,7 +66,7 @@ export function HealthForm({ locale }: { locale: Locale }) {
 
       form.reset();
       setStatus({ type: "success" });
-      track("generate_lead", { form: "health_check" });
+      trackLead("health_check");
     } catch {
       setStatus({ type: "error", message: copy.failed });
     }

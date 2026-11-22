@@ -3,10 +3,19 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { chrome } from "@/content/chrome";
 import { isCurrentPath, pathFor } from "@/content/routes";
 import type { Locale } from "@/content/types";
 import { LanguageSwitcher } from "./LanguageSwitcher";
+
+function MenuIcon({ open }: { open: boolean }) {
+  return (
+    <svg viewBox="0 0 24 24" className="size-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true">
+      {open ? <path d="M6 6l12 12M18 6 6 18" /> : <path d="M4 7h16M4 12h16M4 17h16" />}
+    </svg>
+  );
+}
 
 export function MobileNav({
   locale,
@@ -17,8 +26,15 @@ export function MobileNav({
 }) {
   const copy = chrome(locale);
   const pathname = usePathname();
-  const [openedAt, setOpenedAt] = useState<string | null>(null);
-  const open = openedAt === pathname;
+  const [open, setOpen] = useState(false);
+  // Close the menu whenever the page changes (a link, the logo, or the back button).
+  // Remembering "opened on page X" instead made it reopen on a later return to X.
+  const [shownPath, setShownPath] = useState(pathname);
+  if (shownPath !== pathname) {
+    setShownPath(pathname);
+    setOpen(false);
+  }
+  const close = () => setOpen(false);
   const panelRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
@@ -33,7 +49,7 @@ export function MobileNav({
 
     function onKey(event: KeyboardEvent) {
       if (event.key === "Escape") {
-        setOpenedAt(null);
+        setOpen(false);
         return;
       }
       if (event.key !== "Tab" || focusable.length === 0) return;
@@ -72,39 +88,43 @@ export function MobileNav({
       <button
         ref={buttonRef}
         type="button"
-        className="inline-flex min-h-11 items-center rounded-[var(--radius)] border border-line px-3 text-sm"
+        className="inline-grid size-11 place-items-center rounded-xl border border-line bg-surface text-ink"
         aria-expanded={open}
         aria-controls="mobile-navigation"
-        onClick={() => setOpenedAt(open ? null : pathname)}
+        aria-label={open ? copy.closeMenu : copy.openMenu}
+        onClick={() => setOpen(!open)}
       >
-        {open ? copy.closeMenu : copy.openMenu}
+        <MenuIcon open={open} />
       </button>
-      {open ? (
+      {open
+        ? createPortal(
         <div
           id="mobile-navigation"
           ref={panelRef}
           role="dialog"
           aria-modal="true"
           aria-label={copy.menuLabel}
-          className="fixed inset-0 z-50 overflow-y-auto bg-bg px-5 pb-10 pt-[max(1.25rem,env(safe-area-inset-top))]"
+          className="fixed inset-0 z-50 overflow-y-auto bg-bg px-5 lg:hidden pb-10 pt-[max(1.25rem,env(safe-area-inset-top))]"
         >
           <div className="mb-6 flex items-center justify-between">
             <LanguageSwitcher locale={locale} />
             <button
               type="button"
-              className="min-h-11 rounded-[var(--radius)] border border-line px-3 text-sm"
-              onClick={() => setOpenedAt(null)}
+              className="inline-grid size-11 place-items-center rounded-xl border border-line bg-surface text-ink"
+              aria-label={copy.closeMenu}
+              onClick={close}
             >
-              {copy.closeMenu}
+              <MenuIcon open />
             </button>
           </div>
-          <p className="kicker">{copy.services}</p>
+          <p className="label-mono m-0 px-3 text-accent">{copy.services}</p>
           <ul className="mt-3 grid gap-1">
             {services.map((item) => (
               <li key={item.href}>
                 <Link
                   href={item.href}
                   className="mobile-link"
+                  onClick={close}
                   aria-current={isCurrentPath(pathname, item.href) ? "page" : undefined}
                 >
                   {item.label}
@@ -118,6 +138,7 @@ export function MobileNav({
                 <Link
                   href={item.href}
                   className="mobile-link"
+                  onClick={close}
                   aria-current={isCurrentPath(pathname, item.href) ? "page" : undefined}
                 >
                   {item.label}
@@ -125,8 +146,17 @@ export function MobileNav({
               </li>
             ))}
           </ul>
-        </div>
-      ) : null}
+          <Link
+            href={pathFor("healthCheck", locale)}
+            onClick={close}
+            className="btn btn-teal mt-8 flex min-h-12 items-center justify-center rounded-xl border border-accent bg-accent px-5 text-sm font-semibold text-white"
+          >
+            {copy.health}
+          </Link>
+        </div>,
+            document.body,
+          )
+        : null}
     </div>
   );
 }

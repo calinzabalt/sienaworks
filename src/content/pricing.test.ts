@@ -24,7 +24,9 @@ test("Romanian starters stay in RON and EUR amounts stay unset", () => {
     }
   }
 
-  assert.equal(formatPrice({ kind: "from", amount: null }, "en", "EUR"), "EUR starting price confirmed on request");
+  assert.equal(formatPrice({ kind: "from", amount: null }, "en", "EUR"), "Confirmed on request");
+  assert.equal(formatPrice({ kind: "from", amount: null, period: "month" }, "en", "EUR"), "Monthly, confirmed on request");
+  assert.doesNotMatch(formatPrice({ kind: "from", amount: null }, "en", "EUR"), /EUR/);
   assert.equal(formatPrice({ kind: "from", amount: 450 }, "ro", "RON"), "De la 450 RON");
   assert.match(formatPrice({ kind: "from", amount: 450 }, "en", "EUR"), /450/);
   assert.doesNotMatch(formatPrice({ kind: "from", amount: null }, "en", "EUR"), /450/);

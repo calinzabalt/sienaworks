@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { matchRoute, pathFor, routes, switchLocale } from "./routes";
+import { caseStudyPath, matchRoute, pathFor, routes, switchLocale } from "./routes";
 import { routeIds } from "./types";
 
 test("every public route has a unique English and Romanian path", () => {
@@ -35,4 +35,12 @@ test("matching is exact", () => {
   assert.equal(matchRoute("/ro/despre")?.id, "about");
   assert.equal(matchRoute("/contact")?.locale, "en");
   assert.equal(matchRoute("/ro/contact")?.locale, "ro");
+});
+
+test("case study detail pages switch language and keep their slug", () => {
+  assert.equal(caseStudyPath("abcrypto", "en"), "/case-studies/abcrypto");
+  assert.equal(caseStudyPath("abcrypto", "ro"), "/ro/studii-de-caz/abcrypto");
+  assert.equal(switchLocale("/case-studies/abcrypto", "ro"), "/ro/studii-de-caz/abcrypto");
+  assert.equal(switchLocale("/ro/studii-de-caz/abcrypto/", "en"), "/case-studies/abcrypto");
+  assert.equal(switchLocale("/case-studies", "ro"), "/ro/studii-de-caz");
 });

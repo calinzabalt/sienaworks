@@ -1,30 +1,53 @@
 import type { FaqItem } from "@/content/faq";
+import type { Locale } from "@/content/types";
+import { Container } from "./Container";
+import { SecHead } from "./Section";
+import { keepHyphens } from "@/lib/text";
+
+const copy = {
+  en: { label: "Questions", title: "Questions", text: "Write on WhatsApp or by email if the answer is not here." },
+  ro: { label: "Întrebări", title: "Întrebări frecvente", text: "Scrie pe WhatsApp sau pe e-mail dacă nu găsești răspunsul aici." },
+} as const;
 
 export function FaqList({
-  title,
   items,
+  locale,
+  index,
+  title,
 }: {
-  title: string;
   items: FaqItem[];
+  locale: Locale;
+  index?: number;
+  title?: string;
 }) {
   if (items.length === 0) return null;
+  const t = copy[locale];
 
   return (
-    <section className="border-t border-line bg-surface py-16 md:py-20">
-      <div className="mx-auto w-full max-w-6xl px-5 sm:px-8">
-        <h2 className="text-3xl font-semibold tracking-tight">{title}</h2>
-        <div className="mt-8 grid gap-3">
-          {items.map((item) => (
-            <details key={item.question} className="card group px-5 py-4">
-              <summary className="flex cursor-pointer items-center justify-between gap-4 font-medium text-ink">
-                {item.question}
-                <span className="faq-mark shrink-0" aria-hidden="true" />
-              </summary>
-              <p className="mt-3 max-w-3xl leading-relaxed text-ink-soft">{item.answer}</p>
-            </details>
-          ))}
+    <section className="py-20 md:py-28">
+      <Container>
+        <SecHead index={index} label={t.label} note={String(items.length).padStart(2, "0")} />
+        <div className="faq grid items-start gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] lg:gap-16">
+          <div>
+            <h2 className="h-sec">{keepHyphens(title ?? t.title)}</h2>
+            <p className="lead mt-4 max-w-sm">{t.text}</p>
+          </div>
+          <div>
+            {items.map((item, i) => (
+              <details key={item.question} open={i === 0}>
+                <summary>
+                  <span className="q">Q/{String(i + 1).padStart(2, "0")}</span>
+                  <span>{keepHyphens(item.question)}</span>
+                  <span className="pm" aria-hidden="true">
+                    +
+                  </span>
+                </summary>
+                <p>{item.answer}</p>
+              </details>
+            ))}
+          </div>
         </div>
-      </div>
+      </Container>
     </section>
   );
 }

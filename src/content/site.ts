@@ -4,7 +4,6 @@ export const site = {
   phone: "+40 740 691 940",
   whatsapp: "https://wa.me/40740691940",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://sienaworks.com",
-  positioning: "Technical website services that keep your business moving.",
 } as const;
 
 export const operator = {

@@ -7,7 +7,7 @@ import { contactFormCopy, formError, serviceOptions } from "@/content/forms";
 import { pathFor } from "@/content/routes";
 import { site } from "@/content/site";
 import type { Locale } from "@/content/types";
-import { track } from "@/lib/consent";
+import { trackLead } from "@/lib/consent";
 import { parseContact, type EnquiryService, type ParseError } from "@/lib/enquiry";
 
 type Status =
@@ -72,7 +72,7 @@ export function ContactForm({
 
       form.reset();
       setStatus({ type: "success" });
-      track("generate_lead", { form: "contact" });
+      trackLead("contact");
     } catch {
       setStatus({ type: "error", message: copy.failed });
     }

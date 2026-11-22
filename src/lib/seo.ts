@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { metaFor } from "@/content/meta";
-import { pathFor } from "@/content/routes";
+import { caseStudyPath, pathFor } from "@/content/routes";
+import type { CaseStudy } from "@/content/case-studies";
 import { absoluteUrl, site } from "@/content/site";
 import type { Locale, RouteId } from "@/content/types";
 
@@ -58,5 +59,43 @@ export function createMetadata({
     robots: noIndex
       ? { index: false, follow: false }
       : { index: true, follow: true },
+  };
+}
+
+export function createCaseStudyMetadata(study: CaseStudy, locale: Locale): Metadata {
+  const copy = study.copy[locale];
+  const title = `${study.client}: ${locale === "ro" ? "studiu de caz" : "case study"}`;
+  const description = copy.seoDescription;
+  const url = absoluteUrl(caseStudyPath(study.slug, locale));
+  const poster = copy.video?.landscape.poster;
+  const still = copy.image ?? study.image;
+  const images = poster
+    ? [{ url: poster, width: 1920, height: 1080, alt: copy.imageAlt }]
+    : still
+      ? [{ url: still.src, width: still.width, height: still.height, alt: copy.imageAlt }]
+      : undefined;
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: url,
+      languages: {
+        en: absoluteUrl(caseStudyPath(study.slug, "en")),
+        ro: absoluteUrl(caseStudyPath(study.slug, "ro")),
+        "x-default": absoluteUrl(caseStudyPath(study.slug, "en")),
+      },
+    },
+    openGraph: {
+      title,
+      description,
+      url,
+      siteName: site.name,
+      locale: locale === "ro" ? "ro_RO" : "en_GB",
+      type: "article",
+      images,
+    },
+    twitter: { card: "summary_large_image", title, description, images },
+    robots: { index: true, follow: true },
   };
 }

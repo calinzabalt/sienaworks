@@ -5,6 +5,17 @@ const copy = {
     eyebrow: "About",
     title: "Technical website work, explained clearly.",
     lede: "Sienaworks helps businesses fix, improve and look after the websites they depend on. The work is practical: find what is wrong, fix what matters, and leave the site easier to run.",
+    person: {
+      kicker: "Behind Sienaworks",
+      title: "Călin Cozma, web developer",
+      text: "I have worked in web development since 2019. In that time I have built and maintained WordPress sites, WooCommerce stores and custom platforms for businesses in Romania, the UK and the USA, including clients I have worked with for years. You deal with me directly, from the first message to the last fix.",
+      imageAlt: "Călin Cozma, web developer behind Sienaworks",
+      facts: [
+        { value: "2019", label: "the year I started in web development" },
+        { value: "100+", label: "monthly subscriptions on a platform I maintain" },
+        { value: "1", label: "person to talk to, from start to finish" },
+      ],
+    },
     audiencesTitle: "Who the work is for",
     audiences: [
       {
@@ -40,6 +51,17 @@ const copy = {
     eyebrow: "Despre",
     title: "Lucru tehnic pe site-uri, explicat clar.",
     lede: "Sienaworks ajută afacerile să repare, să îmbunătățească și să îngrijească site-urile de care depind. Lucrul este practic: aflăm ce nu merge, remediem ce contează și lăsăm site-ul mai ușor de administrat.",
+    person: {
+      kicker: "În spatele Sienaworks",
+      title: "Călin Cozma, dezvoltator web",
+      text: "Lucrez în dezvoltare web din 2019. De atunci am construit și întreținut site-uri WordPress, magazine WooCommerce și platforme personalizate pentru afaceri din România, Marea Britanie și SUA, inclusiv pentru clienți cu care lucrez de ani de zile. Vorbești direct cu mine, de la primul mesaj până la ultima remediere.",
+      imageAlt: "Călin Cozma, dezvoltatorul din spatele Sienaworks",
+      facts: [
+        { value: "2019", label: "anul în care am început în dezvoltare web" },
+        { value: "100+", label: "abonamente lunare pe o platformă pe care o întrețin" },
+        { value: "1", label: "singur om de contact, de la început la final" },
+      ],
+    },
     audiencesTitle: "Pentru cine este",
     audiences: [
       {

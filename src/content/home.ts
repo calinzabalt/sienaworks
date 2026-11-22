@@ -11,8 +11,31 @@ export type HomeCopy = {
     eyebrow: string;
     title: string;
     note: string;
-    items: { title: string; text: string }[];
+    items: { title: string; text: string; status: "ok" | "warn" | "bad"; chip: string }[];
+    disclaimer: string;
+    /** labels drawn inside the illustrated website */
+    mock: { url: string; image: string; error: string; versions: string[]; updates: string };
   };
+  /** section labels and extras for design F */
+  labels: {
+    problems: string;
+    symptoms: string;
+    caseStudy: string;
+    allCases: string;
+    video: string;
+    services: string;
+    pricesNote: string;
+    startHere: string;
+    process: string;
+    steps: string;
+    about: string;
+    since: string;
+    aboutCta: string;
+    portraitName: string;
+    portraitRole: string;
+    portraitSince: string;
+  };
+  aboutText: string;
   problemsTitle: string;
   problemsIntro: string;
   problems: { title: string; text: string }[];
@@ -32,7 +55,7 @@ export type HomeCopy = {
 };
 
 const en: HomeCopy = {
-  eyebrow: "Website performance · Reliability · Development",
+  eyebrow: "Speed · Fixes · Development",
   title: "Your website should work for your business, not against it.",
   lede: "Slow pages, broken forms, update errors and unreliable websites can cost your business time and opportunities. Sienaworks helps you identify technical problems, fix what matters and keep your website working as it should.",
   primaryCta: "Get a Free Website Health Check",
@@ -40,27 +63,57 @@ const en: HomeCopy = {
   support: "Practical technical solutions. Clear findings. No unnecessary complexity.",
   sketch: {
     eyebrow: "Example",
-    title: "What a health check looks for",
+    title: "What we check",
     note: "Problems we see often.",
     items: [
       {
         title: "Can people open the site?",
         text: "Whether the website is online and responding.",
+        status: "ok",
+        chip: "Online",
       },
       {
         title: "Do pages load slowly?",
         text: "Pages that feel slow, especially on a phone.",
+        status: "warn",
+        chip: "4.8 s on mobile",
       },
       {
         title: "Is something broken?",
         text: "Forms, checkout and errors after an update.",
+        status: "bad",
+        chip: "Form not sending",
       },
       {
         title: "Is the software out of date?",
         text: "Old plugins, themes or settings that need a closer look.",
+        status: "warn",
+        chip: "12 updates",
       },
     ],
+    disclaimer: "Illustrative example. Your report shows what was actually found on your site.",
+    mock: { url: "your-business.com", image: "IMG · 3.2 MB", error: "× Message not sent", versions: ["WP 6.2", "theme 3.1", "form 2.0"], updates: "12 updates" },
   },
+  labels: {
+    problems: "Problems",
+    symptoms: "06 symptoms",
+    caseStudy: "Case study",
+    allCases: "All case studies",
+    video: "Video · 1 min",
+    services: "Services",
+    pricesNote: "prices on request",
+    startHere: "Start here",
+    process: "Process",
+    steps: "05 steps",
+    about: "About",
+    since: "web development since 2019",
+    aboutCta: "More about Sienaworks",
+    portraitName: "Călin Cozma",
+    portraitRole: "founder",
+    portraitSince: "In web development since 2019",
+  },
+  aboutText:
+    "Sienaworks helps businesses fix, improve and look after the websites they depend on. The work is practical: find what is wrong, fix what matters, and leave the site easier to run.",
   problemsTitle: "Small website problems can become expensive distractions.",
   problemsIntro:
     "Your website might look fine while important things are going wrong behind the scenes.",
@@ -187,7 +240,7 @@ const en: HomeCopy = {
 };
 
 const ro: HomeCopy = {
-  eyebrow: "Performanță · Fiabilitate · Dezvoltare web",
+  eyebrow: "Viteză · Reparații · Dezvoltare",
   title: "Site-ul tău ar trebui să îți ajute afacerea, nu să o încurce.",
   lede: "Paginile lente, formularele care nu funcționează și erorile apărute după actualizări îți pot consuma timpul și îți pot afecta afacerea. Sienaworks te ajută să identifici problemele tehnice, să le prioritizezi și să menții site-ul funcțional.",
   primaryCta: "Verifică gratuit site-ul",
@@ -195,27 +248,57 @@ const ro: HomeCopy = {
   support: "Soluții tehnice practice. Explicații clare. Fără complexitate inutilă.",
   sketch: {
     eyebrow: "Exemplu",
-    title: "Ce caută o verificare a site-ului",
+    title: "Ce verificăm",
     note: "Probleme pe care le vedem des.",
     items: [
       {
         title: "Pot vizitatorii deschide site-ul?",
         text: "Dacă site-ul este online și răspunde.",
+        status: "ok",
+        chip: "Online",
       },
       {
         title: "Se încarcă paginile greu?",
         text: "Paginile care par lente, mai ales pe telefon.",
+        status: "warn",
+        chip: "4,8 s pe mobil",
       },
       {
         title: "Este ceva stricat?",
         text: "Formulare, coșul de cumpărături și erorile după o actualizare.",
+        status: "bad",
+        chip: "Formularul nu trimite",
       },
       {
         title: "Sunt programele site-ului vechi?",
         text: "Module, teme sau setări care au nevoie de o verificare.",
+        status: "warn",
+        chip: "12 actualizări",
       },
     ],
+    disclaimer: "Exemplu ilustrativ. Raportul tău arată ce s-a găsit de fapt pe site.",
+    mock: { url: "afacerea-ta.ro", image: "IMG · 3,2 MB", error: "× Mesajul nu a fost trimis", versions: ["WP 6.2", "temă 3.1", "formular 2.0"], updates: "12 actualizări" },
   },
+  labels: {
+    problems: "Probleme",
+    symptoms: "06 simptome",
+    caseStudy: "Studiu de caz",
+    allCases: "Toate studiile de caz",
+    video: "Video · 1 min",
+    services: "Servicii",
+    pricesNote: "prețuri publice, în lei",
+    startHere: "Începe aici",
+    process: "Proces",
+    steps: "05 pași",
+    about: "Despre",
+    since: "în dezvoltare web din 2019",
+    aboutCta: "Mai multe despre Sienaworks",
+    portraitName: "Călin Cozma",
+    portraitRole: "fondator",
+    portraitSince: "În dezvoltare web din 2019",
+  },
+  aboutText:
+    "Sienaworks ajută afacerile să repare, să îmbunătățească și să îngrijească site-urile de care depind. Lucrul este practic: aflăm ce nu merge, remediem ce contează și lăsăm site-ul mai ușor de administrat.",
   problemsTitle: "Problemele mici ale unui site pot deveni costisitoare.",
   problemsIntro:
     "Chiar dacă site-ul pare în regulă, unele probleme tehnice pot afecta experiența vizitatorilor și activitatea afacerii.",

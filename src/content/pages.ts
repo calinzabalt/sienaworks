@@ -95,7 +95,7 @@ export function caseStudyCopy(locale: Locale) {
     return {
       eyebrow: "Studii de caz",
       title: "Proiecte reale. Soluții tehnice concrete.",
-      intro: "Exemple despre cum investigăm și rezolvăm probleme tehnice.",
+      intro: "Site-uri și platforme construite, reparate și întreținute pentru afaceri reale.",
       empty:
         "Pregătim exemple de proiecte și soluții tehnice. Contactează-ne pentru a discuta despre site-ul și provocările afacerii tale.",
       cta: "Contactează Sienaworks",
@@ -105,7 +105,7 @@ export function caseStudyCopy(locale: Locale) {
   return {
     eyebrow: "Case studies",
     title: "Real projects. Practical technical solutions.",
-    intro: "Explore how technical problems are investigated, resolved and improved.",
+    intro: "Websites and platforms built, fixed and maintained for real businesses.",
     empty:
       "Case studies are being prepared. Contact us to discuss your website and the challenges you need to solve.",
     cta: "Contact Sienaworks",
@@ -121,6 +121,7 @@ export function pricingPageCopy(locale: Locale) {
         "Sumele de mai jos sunt orientative, în lei. Prețul final depinde de site și de cât de mare este lucrarea.",
       note: "Înainte să începem, stabilim împreună ce este inclus.",
       details: "Detalii serviciu",
+      startHere: "Începe aici",
       complex: "Pentru o cerință mai complexă, descrie situația și stabilim împreună următorul pas.",
       complexCta: "Descrie proiectul",
     };
@@ -128,11 +129,12 @@ export function pricingPageCopy(locale: Locale) {
 
   return {
     eyebrow: "Pricing",
-    title: "Starting points, not final quotations.",
+    title: "A price for your website, confirmed on request.",
     intro:
-      "Starting prices in euro. Where a figure is not shown yet, we confirm it when you ask. The final price depends on the website and the size of the work.",
+      "We confirm each price when you ask. It depends on the website and the size of the work. The health check is free.",
     note: "Before we start, we agree what is included.",
     details: "Service details",
+    startHere: "Start here",
     complex: "For a more complex requirement, describe the situation and we can agree the next step.",
     complexCta: "Describe the project",
   };

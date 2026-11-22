@@ -83,3 +83,37 @@ export function faqJsonLd(items: FaqItem[]) {
     })),
   };
 }
+
+export function caseStudyJsonLd(input: {
+  name: string;
+  description: string;
+  path: string;
+  locale: Locale;
+  client: string;
+  website?: string;
+  video?: { name: string; poster: string; src: string; seconds: number };
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    name: input.name,
+    description: input.description,
+    url: absoluteUrl(input.path),
+    inLanguage: input.locale,
+    author: { "@type": "Organization", name: site.name, url: absoluteUrl("/") },
+    about: input.website ? { "@type": "WebSite", name: input.client, url: input.website } : { "@type": "Organization", name: input.client },
+    ...(input.video
+      ? {
+          video: {
+            "@type": "VideoObject",
+            name: input.video.name,
+            description: input.description,
+            thumbnailUrl: absoluteUrl(input.video.poster),
+            contentUrl: absoluteUrl(input.video.src),
+            duration: `PT${input.video.seconds}S`,
+            uploadDate: "2026-11-21",
+          },
+        }
+      : {}),
+  };
+}
