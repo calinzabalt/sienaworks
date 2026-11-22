@@ -144,17 +144,20 @@ export function CaseStudyPage({ study, locale }: { study: CaseStudy; locale: Loc
               { label: study.client },
             ]}
           />
-          <div className="mono mt-8 flex flex-wrap items-center gap-x-7 gap-y-2.5 border-y border-b-line border-t-ink py-3.5 text-xs uppercase tracking-[0.1em] text-soft">
+          {/* Fixed rows below lg (one item per line on phones, the domain on its own line on
+              tablets), so the bar's height never depends on how wide the label font is. With a
+              free wrap, the late mono font changed the line count and the hero jumped. */}
+          <div className="mono mt-8 grid grid-cols-1 items-center gap-x-7 gap-y-2.5 border-y border-b-line border-t-ink py-3.5 text-xs uppercase tracking-[0.1em] text-soft sm:grid-cols-2 lg:flex lg:flex-wrap">
             <span>
               {t.order} {String(study.number).padStart(3, "0")}
             </span>
             <span>
               {t.period}: <b className="font-medium text-ink">{copy.periodLabel}</b>
             </span>
-            <span>
+            <span className="sm:col-span-2">
               {t.domain}: <b className="font-medium text-ink">{copy.domain}</b>
             </span>
-            <span className="inline-flex items-center gap-2 rounded-full bg-accent-soft px-2.5 py-1 tracking-[0.04em] text-accent-hover sm:ml-auto">
+            <span className="inline-flex items-center gap-2 justify-self-start rounded-full bg-accent-soft px-2.5 py-1 tracking-[0.04em] text-accent-hover lg:ml-auto">
               ● {copy.status}
             </span>
           </div>
