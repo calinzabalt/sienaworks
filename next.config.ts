@@ -28,6 +28,11 @@ const nextConfig: NextConfig = {
     return [
       { source: "/privacy", destination: "/privacy-policy", permanent: true },
       { source: "/work", destination: "/case-studies", permanent: true },
+      // Launch-era project pages that now have their own case study (first match wins,
+      // so these stay above the catch-all). carsanitar and gartdev fall through to the list.
+      { source: "/work/abcrypto", destination: "/case-studies/abcrypto", permanent: true },
+      { source: "/work/montare-panouri", destination: "/case-studies/montarepanouri", permanent: true },
+      { source: "/work/simplevids-ai", destination: "/case-studies/simplevids", permanent: true },
       { source: "/work/:slug", destination: "/case-studies", permanent: true },
       { source: "/agency-partners", destination: "/about", permanent: true },
       { source: "/services", destination: "/", permanent: true },
