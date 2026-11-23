@@ -25,6 +25,8 @@ function privacy(locale: Locale): LegalSection[] {
           "Din verificarea gratuită: adresa site-ului, e-mailul, tipul site-ului dacă îl alegi și confirmarea că ai dreptul să ceri verificarea.",
           "Dacă ne scrii pe WhatsApp sau direct pe e-mail, primim numărul de telefon sau adresa de e-mail și conținutul mesajului.",
           "Furnizorul de găzduire ține jurnale tehnice, cum sunt adresa IP, data și pagina cerută, ca site-ul să funcționeze și să poată fi protejat.",
+          "Când trimiți un formular, adresa IP este folosită 10 minute ca să limităm mesajele automate. Stă doar în memoria serverului și nu este salvată.",
+          "Numele și e-mailul sunt necesare ca să răspundem la formularul de contact, iar e-mailul și adresa site-ului, la verificarea gratuită. Fără ele nu putem răspunde.",
         ],
       },
       {
@@ -42,7 +44,7 @@ function privacy(locale: Locale): LegalSection[] {
           "Art. 6 alin. (1) lit. b) din GDPR: demersuri la cererea ta înainte de un contract și, după ce există o înțelegere, executarea acelei înțelegeri.",
           "Art. 6 alin. (1) lit. c): păstrarea facturilor și a documentelor contabile, când legea o cere.",
           "Art. 6 alin. (1) lit. f): jurnalele tehnice și filtrarea mesajelor automate, ca site-ul să rămână funcțional și sigur. Te poți opune, iar atunci cântărim cererea.",
-          "Art. 6 alin. (1) lit. a): cookie-urile de analitică și de marketing, doar după ce le accepți. Acordul se poate retrage din Setări cookie, în subsol.",
+          "Art. 6 alin. (1) lit. a): cookie-urile de analitică și de marketing, doar după ce le accepți. Acordul se poate retrage din Setări cookie, în subsol. Retragerea nu afectează ce s-a făcut înainte de ea.",
         ],
       },
       {
@@ -50,17 +52,18 @@ function privacy(locale: Locale): LegalSection[] {
         paragraphs: [
           "Corespondența din formulare, e-mail și WhatsApp se păstrează 3 ani de la ultimul mesaj, ca să putem clarifica ce s-a cerut.",
           "Facturile și documentele contabile se păstrează pe durata cerută de legea contabilității.",
-          "Alegerea despre cookie-uri stă în browser 6 luni. Jurnalele tehnice stau cât le ține furnizorul de găzduire pentru funcționare și securitate.",
+          "Alegerea despre cookie-uri stă în browser 6 luni. Google Analytics păstrează datele despre vizite cel mult 14 luni. Jurnalele tehnice stau cât le ține furnizorul de găzduire pentru funcționare și securitate.",
           "Poți cere ștergerea mai devreme atunci când legea o permite. Dacă trebuie să păstrăm o factură, îți spunem de ce.",
         ],
       },
       {
         title: "Cine mai vede datele",
         paragraphs: [
-          "Mesajele din formulare sunt trimise prin Brevo (SMTP) către căsuțele operatorului, ca să poată fi citite și să se poată răspunde.",
+          "Site-ul este găzduit de Netlify (Statele Unite). Netlify livrează paginile, ține jurnalele tehnice și rulează codul care trimite formularele, așa că mesajele din formulare trec prin serverele lui.",
+          `Mesajele din formulare sunt trimise pe e-mail prin Brevo (Franța) către căsuța operatorului, ${site.email}, găzduită la furnizorul de e-mail. O copie ajunge în căsuța Gmail a operatorului (Google).`,
           "Dacă ne scrii pe WhatsApp, conversația trece și prin Meta. Numărul și mesajul sunt folosite ca să putem răspunde.",
           "Google Analytics se încarcă doar dacă accepți analitica. Eticheta Google Ads se încarcă doar dacă accepți marketingul și există un identificator de conversie configurat.",
-          "Google și Meta pot prelucra date și în afara Spațiului Economic European, cu garanțiile descrise de ei. Furnizorul de găzduire vede jurnalele tehnice. Operatorul rămâne Cozma Viorel-Călin PFA.",
+          "Netlify, Google și Meta pot prelucra date și în afara Spațiului Economic European, cu garanțiile descrise de ei, cum sunt Cadrul UE–SUA privind protecția datelor sau clauzele contractuale standard ale Comisiei Europene. Operatorul rămâne Cozma Viorel-Călin PFA.",
         ],
       },
       {
@@ -90,6 +93,8 @@ function privacy(locale: Locale): LegalSection[] {
         "From the free check: website address, email, website type if you choose one, and confirmation that you are allowed to request the check.",
         "If you write on WhatsApp or by email, we receive the phone number or email address and the message.",
         "The hosting provider keeps technical logs, such as IP address, date and the page requested, so the site can run and be protected.",
+        "When you send a form, the IP address is used for 10 minutes to limit automated messages. It stays only in the server’s memory and is not saved.",
+        "Name and email are needed to reply to the contact form, and email and website address for the free check. Without them we cannot reply.",
       ],
     },
     {
@@ -107,7 +112,7 @@ function privacy(locale: Locale): LegalSection[] {
         "GDPR Article 6(1)(b): steps at your request before a contract and, once there is an agreement, performing that agreement.",
         "Article 6(1)(c): keeping invoices and accounting records where the law requires it.",
         "Article 6(1)(f): technical logs and filtering automated messages, so the site stays available and protected. You can object, and we then weigh the request.",
-        "Article 6(1)(a): analytics and marketing cookies, only after you accept them. Consent can be withdrawn from Cookie settings in the footer.",
+        "Article 6(1)(a): analytics and marketing cookies, only after you accept them. Consent can be withdrawn from Cookie settings in the footer. Withdrawing it does not affect what was done before.",
       ],
     },
     {
@@ -115,17 +120,18 @@ function privacy(locale: Locale): LegalSection[] {
       paragraphs: [
         "Correspondence from forms, email and WhatsApp is kept for 3 years from the last message, so the request can still be explained.",
         "Invoices and accounting records are kept for the period required by accounting law.",
-        "The cookie choice stays in the browser for 6 months. Technical logs stay for as long as the hosting provider keeps them for operation and security.",
+        "The cookie choice stays in the browser for 6 months. Google Analytics keeps visit data for up to 14 months. Technical logs stay for as long as the hosting provider keeps them for operation and security.",
         "You can ask for earlier deletion where the law allows it. If an invoice has to stay, we say why.",
       ],
     },
     {
       title: "Who else sees the data",
       paragraphs: [
-        "Form messages are sent through Brevo (SMTP) to the operator’s mailboxes so they can be read and answered.",
+        "The website is hosted by Netlify (United States). Netlify serves the pages, keeps the technical logs and runs the code that sends the forms, so form messages pass through its servers.",
+        `Form messages are sent by email through Brevo (France) to the operator’s mailbox, ${site.email}, held with the email hosting provider. A copy goes to the operator’s Gmail mailbox (Google).`,
         "If you write on WhatsApp, the conversation also passes through Meta. The number and the message are used so we can reply.",
         "Google Analytics loads only if you accept analytics. A Google Ads tag loads only if you accept marketing and a conversion ID is configured.",
-        "Google and Meta may process data outside the European Economic Area, under the safeguards they describe. The hosting provider sees the technical logs. The controller remains Cozma Viorel-Călin PFA.",
+        "Netlify, Google and Meta may process data outside the European Economic Area, under the safeguards they describe, such as the EU–US Data Privacy Framework or the European Commission’s standard contractual clauses. The controller remains Cozma Viorel-Călin PFA.",
       ],
     },
     {
@@ -169,6 +175,7 @@ function cookies(locale: Locale): LegalSection[] {
         title: "Marketing",
         paragraphs: [
           "Eticheta Google Ads nu se încarcă decât dacă ai acceptat marketingul și există un identificator de conversie configurat. Fără identificator, eticheta nu pornește.",
+          "Când se încarcă, Google Ads poate seta cookie-ul _gcl_au, de obicei pentru 90 de zile, ca să lege o vizită de o solicitare făcută mai târziu. Google poate folosi și cookie-uri proprii, pe domeniile lui, ca să măsoare conversiile.",
           "Refuzul nu blochează formularele, WhatsApp sau e-mailul. Acordul se retrage din același loc, Setări cookie.",
         ],
       },
@@ -209,6 +216,7 @@ function cookies(locale: Locale): LegalSection[] {
       title: "Marketing",
       paragraphs: [
         "A Google Ads tag loads only if you have accepted marketing and a conversion ID is configured. Without that ID, the tag does not start.",
+        "When it loads, Google Ads may set the _gcl_au cookie, usually for 90 days, to link a visit to an enquiry made later. Google may also use its own cookies, on its own domains, to measure conversions.",
         "Rejecting it does not block the forms, WhatsApp or email. Consent is withdrawn from the same Cookie settings control.",
       ],
     },
@@ -235,15 +243,15 @@ function terms(locale: Locale): LegalSection[] {
       {
         title: "Ce este acest site",
         paragraphs: [
-          "Textele, serviciile și prețurile de pornire sunt informații. Nu sunt o ofertă care se acceptă automat prin trimiterea unui formular.",
+          "Serviciile sunt adresate afacerilor. Textele, serviciile și prețurile de pornire sunt informații. Nu sunt o ofertă care se acceptă automat prin trimiterea unui formular.",
           "Lucrarea începe după ce stabilim în scris ce facem, ce ne trebuie ca acces și cât costă. Până atunci, mesajul este o solicitare, nu o comandă.",
         ],
       },
       {
         title: "Prețuri",
         paragraphs: [
-          "Sumele în lei de pe pagina de prețuri sunt puncte de pornire. Prețul final depinde de site și de cât de mare este lucrarea.",
-          "Prețurile în euro, acolo unde nu este trecută o sumă, se confirmă la cerere. Factura este emisă de Cozma Viorel-Călin PFA. Operatorul nu este plătitor de TVA.",
+          "Sumele în lei de pe pagina de prețuri sunt puncte de pornire. Unde scrie „Confirmat la cerere”, confirmăm prețul când ne scrii. Prețul final depinde de site și de cât de mare este lucrarea și se stabilește în scris înainte de lucrare.",
+          "Factura este emisă de Cozma Viorel-Călin PFA. Operatorul nu este plătitor de TVA.",
           "Plata se face cum s-a stabilit în scris: înainte de lucrare sau pe etape.",
         ],
       },
@@ -270,6 +278,14 @@ function terms(locale: Locale): LegalSection[] {
         ],
       },
       {
+        title: "Dacă ești consumator",
+        paragraphs: [
+          `Dacă ne angajezi ca persoană fizică, iar înțelegerea se face la distanță (pe e-mail, telefon sau WhatsApp), te poți retrage în 14 zile de la încheierea ei, fără să dai un motiv, cum prevede OUG nr. 34/2014. Ne anunți pe e-mail, la ${site.email}.`,
+          "Dacă ne ceri în scris să începem în acest interval și confirmi că știi că dreptul de retragere se pierde odată ce lucrarea este gata, dreptul se pierde când lucrarea este finalizată complet. Dacă te retragi după ce am început, plătești partea deja făcută.",
+          "Pentru o neînțelegere pe care nu o rezolvăm direct, poți apela la soluționarea alternativă a litigiilor (SAL) a ANPC: www.anpc.ro/sal.",
+        ],
+      },
+      {
         title: "Lege și răspundere",
         paragraphs: [
           "Se aplică legea română. Instanțele din Arad sunt competente, fără să se înlăture drepturile imperative ale unui consumator privind instanța de la domiciliul său.",
@@ -291,15 +307,15 @@ function terms(locale: Locale): LegalSection[] {
     {
       title: "What this website is",
       paragraphs: [
-        "The copy, the services and the starting prices are information. They are not an offer accepted automatically by sending a form.",
+        "The services are aimed at businesses. The copy, the services and the starting prices are information. They are not an offer accepted automatically by sending a form.",
         "Work starts after we agree in writing what will be done, what access is needed and what it costs. Until then, a message is a request, not an order.",
       ],
     },
     {
       title: "Prices",
       paragraphs: [
-        "The leu amounts on the pricing page are starting points. The final price depends on the website and the size of the work.",
-        "EUR prices, where no amount is shown, are confirmed on request. The invoice is issued by Cozma Viorel-Călin PFA. The operator is not registered for VAT.",
+        "The leu amounts on the Romanian pricing page are starting points. Where a price says “Confirmed on request”, we confirm it when you ask. The final price depends on the website and the size of the work, and is agreed in writing before the work begins.",
+        "The invoice is issued by Cozma Viorel-Călin PFA. The operator is not registered for VAT.",
         "Payment is made as agreed in writing: before the work, or in stages.",
       ],
     },
@@ -326,6 +342,14 @@ function terms(locale: Locale): LegalSection[] {
       ],
     },
     {
+      title: "If you are a consumer",
+      paragraphs: [
+        `If you hire us as a private individual and the agreement is made at a distance (by email, phone or WhatsApp), you can withdraw within 14 days of the agreement without giving a reason, as Romanian law provides (OUG no. 34/2014). Tell us by email at ${site.email}.`,
+        "If you ask us in writing to start within those 14 days, and confirm you know the right to withdraw ends once the work is done, the right ends when the work is fully completed. If you withdraw after the work has started, you pay for the part already done.",
+        "For a dispute we cannot settle directly, you can use the alternative dispute resolution (SAL) of ANPC, the Romanian consumer protection authority: www.anpc.ro/sal.",
+      ],
+    },
+    {
       title: "Law and liability",
       paragraphs: [
         "Romanian law applies. The courts of Arad have jurisdiction, without removing a consumer’s mandatory right to the court at their home.",
@@ -349,7 +373,7 @@ export function legalPage(kind: "privacy" | "cookies" | "terms", locale: Locale)
   return {
     title: titles[kind],
     review: identity[locale],
-    updated: locale === "ro" ? "1 noiembrie 2026" : "1 November 2026",
+    updated: locale === "ro" ? "23 noiembrie 2026" : "23 November 2026",
     updatedLabel: locale === "ro" ? "Actualizat" : "Updated",
     sections,
   };

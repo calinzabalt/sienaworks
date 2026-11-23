@@ -49,6 +49,12 @@ export function Footer({ locale }: { locale: Locale }) {
           <div className="mt-2.5">
             <CookieSettings locale={locale} />
           </div>
+          {/* ANPC asks traders that may sell to consumers online to link its alternative dispute resolution page. */}
+          <div className="mt-2.5">
+            <a href="https://www.anpc.ro/sal" target="_blank" rel="noopener noreferrer" className="footer-link">
+              {copy.anpcSal}
+            </a>
+          </div>
         </div>
       </Container>
       <Container className="@container">
