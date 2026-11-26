@@ -20,15 +20,13 @@ export type SendResult =
   | { ok: true }
   | { ok: false; code: "not_configured" | "delivery_failed" };
 
-const copyInbox = "calin.cozmax@gmail.com";
-
 function configured() {
   return Boolean(
     process.env.BREVO_SMTP_USER?.trim() && process.env.BREVO_SMTP_PASS?.trim(),
   );
 }
 
-function addresses(value: string | undefined, fallback: string) {
+function addresses(value: string | undefined, fallback = "") {
   return (value?.trim() || fallback)
     .split(/[,;]/)
     .map((item) => item.trim())
@@ -37,7 +35,8 @@ function addresses(value: string | undefined, fallback: string) {
 
 function recipients() {
   const to = addresses(process.env.CONTACT_TO_EMAIL, site.email);
-  const cc = addresses(process.env.CONTACT_CC_EMAIL, copyInbox).filter(
+  // The copy inbox comes only from the environment (set in Netlify); without it, no copy is sent.
+  const cc = addresses(process.env.CONTACT_CC_EMAIL).filter(
     (address) => !to.some((item) => item.toLowerCase() === address.toLowerCase()),
   );
   return { to, cc };

@@ -22,7 +22,7 @@ Copy `.env.example` to `.env.local`. Variable names are documented there. Do not
 | `BREVO_SMTP_USER` / `BREVO_SMTP_PASS` | Brevo SMTP login |
 | `CONTACT_FROM_EMAIL` | Sender, default `hello@sienaworks.com` |
 | `CONTACT_TO_EMAIL` | Inbox for every form, default `hello@sienaworks.com` |
-| `CONTACT_CC_EMAIL` | Copy of every form, default `calin.cozmax@gmail.com` |
+| `CONTACT_CC_EMAIL` | Optional copy of every form. No copy is sent when it is not set |
 | `NEXT_PUBLIC_GA_MEASUREMENT_ID` | Analytics, loaded only after consent |
 | `NEXT_PUBLIC_ADS_CONVERSION_ID` | Optional ads events, only after marketing consent |
 

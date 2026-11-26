@@ -43,7 +43,7 @@ export function CaseStudiesPage({ locale }: { locale: Locale }) {
           ) : (
             <div className="grid gap-10">
               {items.map((study, i) => (
-                <WorkOrderCard key={study.slug} study={study} locale={locale} priority={i === 0} />
+                <WorkOrderCard key={study.slug} study={study} locale={locale} priority={i === 0} heading="h2" />
               ))}
               <div className="flex flex-wrap items-center justify-between gap-5 rounded-[1.25rem] border border-dashed border-[#b9c2cc] px-6 py-7 sm:px-8">
                 <div>

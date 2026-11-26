@@ -10,8 +10,22 @@ const labels = {
   ro: { order: "Fișă de lucrare · Nr.", client: "Client", read: "Citește studiul de caz", video: "Video · 1 min" },
 } as const;
 
-/** The case study as a work order: header strip, annotated screenshot, facts. */
-export function WorkOrderCard({ study, locale, priority = false }: { study: CaseStudy; locale: Locale; priority?: boolean }) {
+/**
+ * The case study as a work order: header strip, annotated screenshot, facts.
+ * `heading` follows the page outline: h3 under a section heading (homepage), h2 straight under the
+ * page title (case studies list), so screen readers and search engines see no skipped level.
+ */
+export function WorkOrderCard({
+  study,
+  locale,
+  priority = false,
+  heading: Heading = "h3",
+}: {
+  study: CaseStudy;
+  locale: Locale;
+  priority?: boolean;
+  heading?: "h2" | "h3";
+}) {
   const copy = study.copy[locale];
   const t = labels[locale];
   const href = caseStudyPath(study.slug, locale);
@@ -69,7 +83,7 @@ export function WorkOrderCard({ study, locale, priority = false }: { study: Case
           ) : null}
         </div>
         <div className="flex flex-col p-6 sm:p-10">
-          <h3 className="disp m-0 text-[1.75rem] leading-[1.12] md:text-[1.9rem]">{keepHyphens(copy.title)}</h3>
+          <Heading className="disp m-0 text-[1.75rem] leading-[1.12] md:text-[1.9rem]">{keepHyphens(copy.title)}</Heading>
           <p className="mt-4 text-[0.97rem] leading-relaxed text-muted">{copy.summary}</p>
           <dl className="fields mt-6">
             {copy.card.map((row) => (
