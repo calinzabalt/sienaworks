@@ -18,6 +18,9 @@ export const websiteTypes = ["wordpress", "woocommerce", "other", "unsure"] as c
 
 export type WebsiteType = (typeof websiteTypes)[number];
 
+/** Name of the hidden spam-trap field. Deliberately meaningless so browser autofill leaves it empty. */
+export const TRAP_FIELD = "sw_hp";
+
 export type ParseError =
   | "invalid"
   | "name"
@@ -69,7 +72,7 @@ export function parseContact(
 ): { ok: true; data: ContactEnquiry } | { ok: false; error: ParseError } {
   const body = asRecord(input);
   if (!body) return { ok: false, error: "invalid" };
-  if (asString(body.company_website)) return { ok: false, error: "invalid" };
+  if (asString(body[TRAP_FIELD])) return { ok: false, error: "invalid" };
 
   const name = asString(body.name);
   const email = asString(body.email);
@@ -106,7 +109,7 @@ export function parseHealthCheck(
 ): { ok: true; data: HealthEnquiry } | { ok: false; error: ParseError } {
   const body = asRecord(input);
   if (!body) return { ok: false, error: "invalid" };
-  if (asString(body.company_website)) return { ok: false, error: "invalid" };
+  if (asString(body[TRAP_FIELD])) return { ok: false, error: "invalid" };
 
   const email = asString(body.email);
   const websiteType = asString(body.websiteType);

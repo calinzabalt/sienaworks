@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { parseContact, parseHealthCheck } from "./enquiry";
+import { TRAP_FIELD, parseContact, parseHealthCheck } from "./enquiry";
 
 const contact = {
   name: "Ada",
@@ -21,7 +21,7 @@ test("contact form rejects missing consent, service and email", () => {
   assert.equal(parseContact({ ...contact, consent: false }).ok, false);
   assert.equal(parseContact({ ...contact, service: "nope" }).ok, false);
   assert.equal(parseContact({ ...contact, email: "ada" }).ok, false);
-  assert.equal(parseContact({ ...contact, company_website: "spam" }).ok, false);
+  assert.equal(parseContact({ ...contact, [TRAP_FIELD]: "spam" }).ok, false);
 });
 
 test("health check requires a public URL and ownership", () => {

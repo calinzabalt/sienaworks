@@ -1,4 +1,5 @@
 import { cn } from "@/lib/cn";
+import { TRAP_FIELD } from "@/lib/enquiry";
 
 export function Field({
   label,
@@ -113,12 +114,27 @@ export function CheckField({
   );
 }
 
+/**
+ * Hidden spam trap: bots fill it, people never see it. The name must mean nothing to browser
+ * autofill: it used to be "company_website", which Chrome filled in for real visitors, so their
+ * forms were rejected with "The form could not be read". The data-* attributes ask LastPass,
+ * 1Password and Bitwarden to skip it too.
+ */
 export function Honeypot() {
   return (
     <div className="absolute left-[-9999px] h-0 w-0 overflow-hidden" aria-hidden="true">
       <label>
         Leave blank
-        <input tabIndex={-1} autoComplete="off" name="company_website" />
+        <input
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+          name={TRAP_FIELD}
+          data-lpignore="true"
+          data-1p-ignore="true"
+          data-bwignore="true"
+          data-form-type="other"
+        />
       </label>
     </div>
   );
