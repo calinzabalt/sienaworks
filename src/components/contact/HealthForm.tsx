@@ -8,6 +8,7 @@ import { site } from "@/content/site";
 import type { Locale } from "@/content/types";
 import { trackLead } from "@/lib/consent";
 import { parseHealthCheck, type ParseError } from "@/lib/enquiry";
+import { useHydrated } from "@/lib/use-hydrated";
 
 type Status =
   | { type: "idle" }
@@ -20,6 +21,7 @@ export function HealthForm({ locale }: { locale: Locale }) {
   const copy = healthFormCopy(locale);
   const types = websiteTypeOptions(locale);
   const [status, setStatus] = useState<Status>({ type: "idle" });
+  const hydrated = useHydrated();
 
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -73,7 +75,8 @@ export function HealthForm({ locale }: { locale: Locale }) {
   }
 
   return (
-    <form onSubmit={onSubmit} className="card form-panel form-grid relative p-5 sm:p-6" noValidate>
+    // method="post": if the browser ever submits the form by itself, the details stay out of the URL.
+    <form onSubmit={onSubmit} method="post" className="card form-panel form-grid relative p-5 sm:p-6" noValidate>
       <p className="form-span text-sm text-muted">{copy.requiredNote}</p>
       <Honeypot />
       <Field label={`${copy.url} *`} name="url" type="url" inputMode="url" autoComplete="url" />
@@ -90,7 +93,7 @@ export function HealthForm({ locale }: { locale: Locale }) {
         {copy.ownership}
       </CheckField>
       <div className="form-span">
-        <Button type="submit" className="w-full" disabled={status.type === "submitting"}>
+        <Button type="submit" className="w-full" disabled={!hydrated || status.type === "submitting"}>
           {status.type === "submitting" ? copy.sending : copy.submit}
         </Button>
       </div>

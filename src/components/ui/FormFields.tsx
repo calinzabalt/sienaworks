@@ -67,15 +67,18 @@ export function AreaField({
   label,
   name,
   className,
+  maxLength,
 }: {
   label: string;
   name: string;
   className?: string;
+  /** Matches the server limit, so a long message stops at the limit instead of being rejected. */
+  maxLength?: number;
 }) {
   return (
     <label className={cn("field-label", className)}>
       <span>{label}</span>
-      <textarea className="field" name={name} />
+      <textarea className="field" name={name} maxLength={maxLength} />
     </label>
   );
 }

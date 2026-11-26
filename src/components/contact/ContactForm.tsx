@@ -9,6 +9,7 @@ import { site } from "@/content/site";
 import type { Locale } from "@/content/types";
 import { trackLead } from "@/lib/consent";
 import { parseContact, type EnquiryService, type ParseError } from "@/lib/enquiry";
+import { useHydrated } from "@/lib/use-hydrated";
 
 type Status =
   | { type: "idle" }
@@ -28,6 +29,7 @@ export function ContactForm({
   const options = serviceOptions(locale);
   const [status, setStatus] = useState<Status>({ type: "idle" });
   const [errors, setErrors] = useState<Partial<Record<string, string>>>({});
+  const hydrated = useHydrated();
 
   async function onSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -79,7 +81,8 @@ export function ContactForm({
   }
 
   return (
-    <form onSubmit={onSubmit} className="card form-panel form-grid relative p-5 sm:p-6" noValidate>
+    // method="post": if the browser ever submits the form by itself, the details stay out of the URL.
+    <form onSubmit={onSubmit} method="post" className="card form-panel form-grid relative p-5 sm:p-6" noValidate>
       <p className="form-span text-sm text-muted">{copy.requiredNote}</p>
       <Honeypot />
       <Field label={`${copy.name} *`} name="name" autoComplete="name" error={errors.name} />
@@ -99,7 +102,7 @@ export function ContactForm({
           </option>
         ))}
       </SelectField>
-      <AreaField className="form-span" label={`${copy.message} *`} name="message" />
+      <AreaField className="form-span" label={`${copy.message} *`} name="message" maxLength={5000} />
       <CheckField className="form-span" name="consent" value="true">
         {copy.consent}{" "}
         <a className="text-accent-hover underline underline-offset-4" href={pathFor("privacy", locale)}>
@@ -107,7 +110,7 @@ export function ContactForm({
         </a>
       </CheckField>
       <div className="form-span">
-        <Button type="submit" disabled={status.type === "submitting"}>
+        <Button type="submit" disabled={!hydrated || status.type === "submitting"}>
           {status.type === "submitting" ? copy.sending : copy.submit}
         </Button>
       </div>
